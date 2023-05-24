@@ -12,6 +12,7 @@
 ---
 ## **Description**
 Explore the Nigthworld, a similar world to the Overworld, but it's always night and beds explode!  
+It's a perfect choice for both multiplayer servers who need the nighttime but can't coordinate many players and for single players in search of a more challenging Overworld!
 
 ## **Features**
 - Enter the Nightworld TODO
@@ -19,11 +20,6 @@ Explore the Nigthworld, a similar world to the Overworld, but it's always night 
 - For server admins, it's compatible with both Vanilla and modded clients!  
 - Can be added to a server/single player world at any time!  
 - Can be removed from server/single player worlds at any time!
-
-## **Dependencies**
-| Mod | Loader | Requirement |
-| :-: | :----: | :---------: |
-| [Forge Config API Port](https://modrinth.com/mod/forge-config-api-port) | Fabric | Required |
 
 ## **License and right of use**
 Feel free to use this mod for any modpack or video, just be sure to give credit and possibly link [here](https://github.com/Nyphet/nightworld#readme).  

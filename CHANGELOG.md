@@ -8,7 +8,7 @@ and this project adheres to [Forge Semantic Versioning](https://mcforge.readthed
 ## [Unreleased]
 - Nothing new.
 
-## [1.19.4-1.0.0.0] - 2023/05/24
+## [1.19.4-1.0.0.0] - 2023/05/xx
 - First version.
 
 [Unreleased]: https://github.com/Nyphet/nightworld

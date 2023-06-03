@@ -20,7 +20,9 @@
       "${group}.${modid}.NightworldLoader"
     ]
   },
-  "mixins": [],
+  "mixins": [
+    "nightworld.mixins.json"
+  ],
   "depends": {
     "fabricloader": ">=${loader_version}",
     "fabric": "*",

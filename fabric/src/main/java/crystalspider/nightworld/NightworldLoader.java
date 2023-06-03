@@ -19,11 +19,11 @@ public class NightworldLoader implements ModInitializer {
   /**
    * {@link RegistryKey} for the dimension.
    */
-  public static final RegistryKey<World> NIGHTWORLD_DIMENSION = RegistryKey.of(RegistryKeys.WORLD, new Identifier(MODID, "nightworld"));
+  public static final RegistryKey<World> NIGHTWORLD = RegistryKey.of(RegistryKeys.WORLD, new Identifier(MODID, "nightworld"));
   /**
    * {@link RegistryKey} for the dimension type.
    */
-  public static final RegistryKey<DimensionType> NIGHTWORLD_TYPE = RegistryKey.of(RegistryKeys.DIMENSION_TYPE, NIGHTWORLD_DIMENSION.getValue());
+  public static final RegistryKey<DimensionType> NIGHTWORLD_TYPE = RegistryKey.of(RegistryKeys.DIMENSION_TYPE, NIGHTWORLD.getValue());
 
   @Override
 	public void onInitialize() {}

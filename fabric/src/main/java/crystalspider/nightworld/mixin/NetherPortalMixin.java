@@ -9,16 +9,20 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
+import crystalspider.nightworld.NightworldLoader;
+import crystalspider.nightworld.api.NightworldPortalChecker;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
+import net.minecraft.server.world.ServerWorld;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
 import net.minecraft.util.math.Direction.Axis;
+import net.minecraft.world.World;
 import net.minecraft.world.WorldAccess;
 import net.minecraft.world.dimension.NetherPortal;
 
 @Mixin(NetherPortal.class)
-public abstract class NetherPortalMixin {
+public abstract class NetherPortalMixin implements NightworldPortalChecker {
   /**
    * Shadowed {@link NetherPortal#world}.
    */
@@ -51,6 +55,8 @@ public abstract class NetherPortalMixin {
   @Shadow
   private int height;
 
+  private boolean isNightworldPortal = false;
+
   /**
    * Shadowed {@link NetherPortal#validStateInsidePortal(BlockState)}.
    * 
@@ -69,22 +75,45 @@ public abstract class NetherPortalMixin {
   @Shadow
   public abstract boolean isValid();
 
+  @Override
+  public boolean isNightworldPortal() {
+    return isNightworldPortal;
+  }
+  
   @Mutable
   @Accessor("width")
-  public abstract void setWidth(int width);
+  protected abstract void setWidth(int width);
 
+  /**
+   * 
+   * 
+   * @param world
+   * @param pos
+   * @param axis
+   * @param ci
+   */
   @Inject(method = "<init>(Lnet/minecraft/world/WorldAccess;Lnet/minecraft/util/math/BlockPos;Lnet/minecraft/util/math/Direction$Axis;)V", at = @At(value = "TAIL"))
   private void onInit(WorldAccess world, BlockPos pos, Axis axis, CallbackInfo ci) {
-    if (!this.isValid()) {
-      this.lowerCorner = this.getLowerCornerForNightworld(pos);
-      if (this.lowerCorner == null) {
-        this.lowerCorner = pos;
+    if (!world.isClient()) {
+      ServerWorld serverWorld = (ServerWorld) world;
+      if (this.isValid() && serverWorld.getRegistryKey() == NightworldLoader.NIGHTWORLD) {
+        // If it's a Nether Portal and we are in the Nightworld, prevent creating the portal.
+        this.lowerCorner = null;
         this.setWidth(1);
         this.height = 1;
-      } else {
-        this.setWidth(this.getWidthForNightworld());
-        if (this.width > 0) {
-          this.height = this.getHeightForNightworld();
+      } else if (!this.isValid() && (serverWorld.getRegistryKey() == World.OVERWORLD || serverWorld.getRegistryKey() == NightworldLoader.NIGHTWORLD)) {
+        // If it's not a Nether Portal and we are either in the Overworld or the Nightworld, check if it's a Nightworld Portal.
+        this.lowerCorner = this.getLowerCornerForNightworld(pos);
+        if (this.lowerCorner == null) {
+          this.lowerCorner = pos;
+          this.setWidth(1);
+          this.height = 1;
+        } else {
+          this.setWidth(this.getWidthForNightworld());
+          if (this.width > 0) {
+            this.height = this.getHeightForNightworld();
+            this.isNightworldPortal = true;
+          }
         }
       }
     }

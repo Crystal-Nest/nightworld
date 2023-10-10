@@ -27,12 +27,12 @@ public abstract class AbstractFireBlockMixin {
 
   @Redirect(method = "onBlockAdded", at = @At(value = "INVOKE", target = "Lnet/minecraft/block/AbstractFireBlock;isOverworldOrNether(Lnet/minecraft/world/World;)Z"))
   private boolean redirectIsOverworldOrNether$onBlockAdded(World world) {
-    return AbstractFireBlockMixin.isOverworldOrNether(world) || world.getRegistryKey() == NightworldLoader.NIGHTWORLD;
+    return AbstractFireBlockMixin.isNightworldSuitableDimension(world);
   }
 
   @Redirect(method = "shouldLightPortalAt", at = @At(value = "INVOKE", target = "Lnet/minecraft/block/AbstractFireBlock;isOverworldOrNether(Lnet/minecraft/world/World;)Z"))
   private static boolean redirectIsOverworldOrNether$shouldLightPortalAt(World world) {
-    return AbstractFireBlockMixin.isOverworldOrNether(world) || world.getRegistryKey() == NightworldLoader.NIGHTWORLD;
+    return AbstractFireBlockMixin.isNightworldSuitableDimension(world);
   }
 
   @ModifyVariable(method = "shouldLightPortalAt", at = @At(value = "INVOKE", target="Lnet/minecraft/util/math/Direction;values()[Lnet/minecraft/util/math/Direction;"))
@@ -47,4 +47,14 @@ public abstract class AbstractFireBlockMixin {
 		}
 		return b1;
 	}
+
+  /**
+   * Checks if the given {@link World} is a suitable dimension to light up a Nightworld portal.
+   * 
+   * @param world
+   * @return
+   */
+  private static boolean isNightworldSuitableDimension(World world) {
+    return AbstractFireBlockMixin.isOverworldOrNether(world) || world.getRegistryKey() == NightworldLoader.NIGHTWORLD;
+  }
 }

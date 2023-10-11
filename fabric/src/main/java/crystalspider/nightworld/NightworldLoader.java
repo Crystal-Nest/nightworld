@@ -1,5 +1,7 @@
 package crystalspider.nightworld;
 
+import org.jetbrains.annotations.ApiStatus.Internal;
+
 import net.fabricmc.api.ModInitializer;
 import net.minecraft.registry.RegistryKey;
 import net.minecraft.registry.RegistryKeys;
@@ -24,6 +26,12 @@ public class NightworldLoader implements ModInitializer {
    * {@link RegistryKey} for the dimension type.
    */
   public static final RegistryKey<DimensionType> NIGHTWORLD_TYPE = RegistryKey.of(RegistryKeys.DIMENSION_TYPE, NIGHTWORLD.getValue());
+
+  /**
+   * {@link ThreadLocal} to keep track of a player's origin dimension when teleporting through a Nether/Nightworld portal.
+   */
+  @Internal()
+  public static final ThreadLocal<Boolean> nightworldOriginThread = ThreadLocal.withInitial(() -> false);
 
   @Override
 	public void onInitialize() {}

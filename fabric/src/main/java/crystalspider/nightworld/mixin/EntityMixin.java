@@ -21,13 +21,16 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction.Axis;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.BlockLocating;
-import net.minecraft.world.TeleportTarget;
-import net.minecraft.world.World;
 import net.minecraft.world.BlockLocating.Rectangle;
 import net.minecraft.world.PortalForcer;
+import net.minecraft.world.TeleportTarget;
+import net.minecraft.world.World;
 import net.minecraft.world.border.WorldBorder;
 import net.minecraft.world.dimension.NetherPortal;
 
+/**
+ * Injects into {@link Entity} to alter dimension travel.
+ */
 @Mixin(Entity.class)
 public abstract class EntityMixin {
   /**
@@ -127,7 +130,6 @@ public abstract class EntityMixin {
    * {@link PortalForcer#createPortal()} creation of portal
    * {@link ServerPlayerEntity#getPortalRect()} creation of portal
    * 
-   * TODO: Create mirror portal.
    * FIXME: Connect properly Nightworld portals between dimensions (relative coordinate inside portal when traveling, no overlapping portals (connect portals in the same chunk?))
    * FIXME: Nether portals are connected to Nightworld portals
    * FIXME: Prevent Nether mob spawn with Nightworld portals

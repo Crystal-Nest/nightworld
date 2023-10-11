@@ -21,6 +21,9 @@ import net.minecraft.world.World;
 import net.minecraft.world.WorldAccess;
 import net.minecraft.world.dimension.NetherPortal;
 
+/**
+ * Injects into {@link NetherPortal} to alter dimension travel.
+ */
 @Mixin(NetherPortal.class)
 public abstract class NetherPortalMixin implements NightworldPortalChecker {
   /**

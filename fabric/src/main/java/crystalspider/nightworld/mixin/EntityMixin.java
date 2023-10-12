@@ -15,7 +15,6 @@ import crystalspider.nightworld.NightworldLoader;
 import crystalspider.nightworld.api.NightworldPortalChecker;
 import net.fabricmc.fabric.impl.dimension.Teleportable;
 import net.minecraft.block.BlockState;
-import net.minecraft.block.NetherPortalBlock;
 import net.minecraft.entity.Entity;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.server.world.ServerWorld;
@@ -133,8 +132,6 @@ public abstract class EntityMixin {
    * {@link PortalForcer#createPortal()} creation of portal
    * {@link ServerPlayerEntity#getPortalRect()} creation of portal
    * 
-   * FIXME: Connect properly Nightworld portals between dimensions (relative coordinate inside portal when traveling, no overlapping portals (connect portals in the same chunk?))
-   * FIXME: Nether portals are connected to Nightworld portals
    * FIXME: Prevent Nether mob spawn with Nightworld portals
    * 
    * @param destination
@@ -147,12 +144,28 @@ public abstract class EntityMixin {
       !this.isRemoved() &&
       (world.getRegistryKey() == World.OVERWORLD || world.getRegistryKey() == NightworldLoader.NIGHTWORLD) &&
       destination.getRegistryKey() == World.NETHER &&
-      ((NightworldPortalChecker) new NetherPortal(world, lastNetherPortalPosition, world.getBlockState(lastNetherPortalPosition).getOrEmpty(NetherPortalBlock.AXIS).orElse(Axis.X))).isNightworldPortal()
+      NightworldPortalChecker.isNightworldPortal(world, lastNetherPortalPosition)
     ) {
       actualDestination = ((ServerWorld) world).getServer().getWorld(world.getRegistryKey() == World.OVERWORLD ? NightworldLoader.NIGHTWORLD : World.OVERWORLD);
       ((Teleportable) this).fabric_setCustomTeleportTarget(this.getNightworldTeleportTarget(caller, actualDestination));
     }
     return this.moveToWorld(actualDestination);
+  }
+  
+  /**
+   * Injects at the start of the method {@link Entity#getPortalRect(ServerWorld, BlockPos, boolean, WorldBorder)}.
+   * <p>
+   * Sets the nightworld origin dimension flag for this entity.
+   * 
+   * @param destWorld
+   * @param destPos
+   * @param destIsNether
+   * @param worldBorder
+   * @param cir
+   */
+  @Inject(method = "getPortalRect", at = @At(value = "HEAD"))
+  private void onGetPortalRect(ServerWorld destWorld, BlockPos destPos, boolean destIsNether, WorldBorder worldBorder, CallbackInfoReturnable<Optional<BlockLocating.Rectangle>> cir) {
+    NightworldLoader.nightworldOriginThread.set(world.getRegistryKey() == NightworldLoader.NIGHTWORLD);
   }
 
   /**
@@ -168,6 +181,13 @@ public abstract class EntityMixin {
     ((Teleportable) this).fabric_setCustomTeleportTarget(null);
   }
 
+  /**
+   * Partial copy-paste of {@link Entity#getTeleportTarget(ServerWorld)}, changed to return the proper {@link TeleportTarget} for teleporting into the Nightworld.
+   * 
+   * @param caller
+   * @param destination
+   * @return
+   */
   @Nullable
   private TeleportTarget getNightworldTeleportTarget(Entity caller, ServerWorld destination) {
     return this.getPortalRect(destination, getBlockPos(), false, destination.getWorldBorder()).map(rect -> {

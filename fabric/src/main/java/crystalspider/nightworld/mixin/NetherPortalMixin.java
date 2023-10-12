@@ -58,6 +58,9 @@ public abstract class NetherPortalMixin implements NightworldPortalChecker {
   @Shadow
   private int height;
 
+  /**
+   * Whether it's a Nightworld Portal.
+   */
   private boolean isNightworldPortal = false;
 
   /**
@@ -78,17 +81,24 @@ public abstract class NetherPortalMixin implements NightworldPortalChecker {
   @Shadow
   public abstract boolean isValid();
 
+  /**
+   * Accessor to allow changes to {@link NetherPortal#width}.
+   * 
+   * @param width
+   */
+  @Mutable
+  @Accessor("width")
+  protected abstract void setWidth(int width);
+
   @Override
   public boolean isNightworldPortal() {
     return isNightworldPortal;
   }
   
-  @Mutable
-  @Accessor("width")
-  protected abstract void setWidth(int width);
-
   /**
-   * 
+   * Injects at the end of the constructor.
+   * <p>
+   * Checks if a Nightworld Portal can be created.
    * 
    * @param world
    * @param pos
@@ -122,6 +132,12 @@ public abstract class NetherPortalMixin implements NightworldPortalChecker {
     }
   }
 
+  /**
+   * Copy-paste of {@link NetherPortal#getLowerCorner(BlockPos)}, changed only to use Crying Obsidian.
+   * 
+   * @param pos
+   * @return
+   */
   @Nullable
   private BlockPos getLowerCornerForNightworld(BlockPos pos) {
     int i = Math.max(this.world.getBottomY(), pos.getY() - 21);
@@ -136,6 +152,11 @@ public abstract class NetherPortalMixin implements NightworldPortalChecker {
     return pos.offset(direction, j);
   }
 
+  /**
+   * Copy-paste of {@link NetherPortal#getWidth()}, changed only to use Crying Obsidian.
+   * 
+   * @return
+   */
   private int getWidthForNightworld() {
     int i = this.getWidthForNightworld(this.lowerCorner, this.negativeDir);
     if (i < 2 || i > 21) {
@@ -144,6 +165,13 @@ public abstract class NetherPortalMixin implements NightworldPortalChecker {
     return i;
   }
 
+  /**
+   * Copy-paste of {@link NetherPortal#getWidth(BlockPos, Direction)}, changed only to use Crying Obsidian.
+   * 
+   * @param pos
+   * @param direction
+   * @return
+   */
   private int getWidthForNightworld(BlockPos pos, Direction direction) {
     BlockPos.Mutable mutable = new BlockPos.Mutable();
     for (int i = 0; i <= 21; ++i) {
@@ -159,6 +187,11 @@ public abstract class NetherPortalMixin implements NightworldPortalChecker {
     return 0;
   }
 
+  /**
+   * Copy-paste of {@link NetherPortal#getHeight()}, changed only to use Crying Obsidian.
+   * 
+   * @return
+   */
   private int getHeightForNightworld() {
     BlockPos.Mutable mutable = new BlockPos.Mutable();
     int i = this.getPotentialHeightForNightworld(mutable);
@@ -168,6 +201,13 @@ public abstract class NetherPortalMixin implements NightworldPortalChecker {
     return i;
   }
 
+  /**
+   * Copy-paste of {@link NetherPortal#isHorizontalFrameValid(BlockPos.Mutable, int)}, changed only to use Crying Obsidian.
+   * 
+   * @param pos
+   * @param height
+   * @return
+   */
   private boolean isHorizontalFrameValidForNightworld(BlockPos.Mutable pos, int height) {
     for (int i = 0; i < this.width; ++i) {
       BlockPos.Mutable mutable = pos.set(this.lowerCorner).move(Direction.UP, height).move(this.negativeDir, i);
@@ -177,6 +217,12 @@ public abstract class NetherPortalMixin implements NightworldPortalChecker {
     return true;
   }
 
+  /**
+   * Copy-paste of {@link NetherPortal#getPotentialHeight(BlockPos.Mutable)}, changed only to use Crying Obsidian.
+   * 
+   * @param pos
+   * @return
+   */
   private int getPotentialHeightForNightworld(BlockPos.Mutable pos) {
     for (int i = 0; i < 21; ++i) {
       pos.set(this.lowerCorner).move(Direction.UP, i).move(this.negativeDir, -1);

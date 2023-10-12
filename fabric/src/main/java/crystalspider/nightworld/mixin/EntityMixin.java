@@ -193,7 +193,7 @@ public abstract class EntityMixin {
       BlockState blockState = world.getBlockState(this.lastNetherPortalPosition);
       if (blockState.contains(Properties.HORIZONTAL_AXIS)) {
         axis = blockState.get(Properties.HORIZONTAL_AXIS);
-        Rectangle rectangle = BlockLocating.getLargestRectangle(this.lastNetherPortalPosition, axis, NetherPortal.MAX_WIDTH, Axis.Y, NetherPortal.field_31824, pos -> world.getBlockState((BlockPos) pos) == blockState);
+        Rectangle rectangle = BlockLocating.getLargestRectangle(this.lastNetherPortalPosition, axis, NetherPortal.MAX_WIDTH, Axis.Y, NetherPortal.MAX_HEIGHT, pos -> world.getBlockState((BlockPos) pos) == blockState);
         vec3d = this.positionInPortal(axis, rectangle);
       } else {
         axis = Axis.X;

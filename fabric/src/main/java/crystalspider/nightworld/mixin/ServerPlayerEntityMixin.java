@@ -8,6 +8,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 import com.google.common.base.Optional;
 
+import crystalspider.nightworld.NightworldLoader;
 import net.fabricmc.fabric.impl.dimension.Teleportable;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
@@ -45,7 +46,7 @@ public abstract class ServerPlayerEntityMixin extends Entity {
    */
   @Inject(method = "getPortalRect", at = @At(value = "INVOKE", target = "Lnet/minecraft/world/PortalForcer;createPortal(Lnet/minecraft/util/math/BlockPos;Lnet/minecraft/util/math/Direction$Axis;)Ljava/util/Optional;", shift = At.Shift.BEFORE))
   private void onGetPortalRect(ServerWorld destWorld, BlockPos destPos, boolean destIsNether, WorldBorder worldBorder, CallbackInfoReturnable<Optional<BlockLocating.Rectangle>> cir) {
-    // NightworldLoader.nightworldOriginThread.set(this.world.getRegistryKey() == NightworldLoader.NIGHTWORLD);
+    NightworldLoader.nightworldOriginThread.set(this.world.getRegistryKey() == NightworldLoader.NIGHTWORLD);
   }
 
   /**

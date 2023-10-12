@@ -16,7 +16,6 @@ import crystalspider.nightworld.api.NightworldPortalChecker;
 import net.fabricmc.fabric.impl.dimension.Teleportable;
 import net.minecraft.block.BlockState;
 import net.minecraft.entity.Entity;
-import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.state.property.Properties;
 import net.minecraft.util.math.BlockPos;
@@ -24,7 +23,6 @@ import net.minecraft.util.math.Direction.Axis;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.BlockLocating;
 import net.minecraft.world.BlockLocating.Rectangle;
-import net.minecraft.world.PortalForcer;
 import net.minecraft.world.TeleportTarget;
 import net.minecraft.world.World;
 import net.minecraft.world.border.WorldBorder;
@@ -127,14 +125,13 @@ public abstract class EntityMixin {
   protected abstract Vec3d positionInPortal(Axis portalAxis, Rectangle portalRect);
 
   /**
-   * {@link Entity#tickPortal()}
-   * {@link PortalForcer#getPortalRect()} locating "linked" portal
-   * {@link PortalForcer#createPortal()} creation of portal
-   * {@link ServerPlayerEntity#getPortalRect()} creation of portal
+   * Redirects the call to {@link Entity#moveToWorld(ServerWorld)} inside the method {@link Entity#tickPortal()}.
+   * <p>
+   * Changes the {@link TeleportTarget} if the entity is in a Nightworld Portal.
    * 
-   * FIXME: Prevent Nether mob spawn with Nightworld portals
-   * 
+   * @param caller
    * @param destination
+   * @return
    */
   @Redirect(method = "tickPortal", at = @At(value = "INVOKE", target = "Lnet/minecraft/entity/Entity;moveToWorld(Lnet/minecraft/server/world/ServerWorld;)Lnet/minecraft/entity/Entity;"))
   private Entity redirectMoveToWorld(Entity caller, ServerWorld destination) {

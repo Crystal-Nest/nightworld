@@ -31,4 +31,10 @@ description="Explore a parallel world!"
     versionRange="[${minecraft_version},)"
     ordering="NONE"
     side="BOTH"
+[[dependencies.${modid}]]
+    modId="shutupexperimentalsettings"
+    mandatory=false
+    versionRange="[1.0.0,)"
+    ordering="NONE"
+    side="SERVER"
 #optional

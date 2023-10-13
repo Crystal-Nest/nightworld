@@ -19,41 +19,41 @@ import net.minecraft.util.math.Direction;
 import net.minecraft.util.math.Direction.Axis;
 import net.minecraft.world.World;
 import net.minecraft.world.WorldAccess;
-import net.minecraft.world.dimension.NetherPortal;
+import net.minecraft.world.dimension.AreaHelper;
 
 /**
- * Injects into {@link NetherPortal} to alter dimension travel.
+ * Injects into {@link AreaHelper} to alter dimension travel.
  */
-@Mixin(NetherPortal.class)
-public abstract class NetherPortalMixin implements NightworldPortalChecker {
+@Mixin(AreaHelper.class)
+public abstract class AreaHelperMixin implements NightworldPortalChecker {
   /**
-   * Shadowed {@link NetherPortal#world}.
+   * Shadowed {@link AreaHelper#world}.
    */
   @Shadow
   private WorldAccess world;
   /**
-   * Shadowed {@link NetherPortal#negativeDir}.
+   * Shadowed {@link AreaHelper#negativeDir}.
    */
   @Shadow
   private Direction negativeDir;
   /**
-   * Shadowed {@link NetherPortal#foundPortalBlocks}.
+   * Shadowed {@link AreaHelper#foundPortalBlocks}.
    */
   @Shadow
   private int foundPortalBlocks;
   /**
-   * Shadowed {@link NetherPortal#lowerCorner}.
+   * Shadowed {@link AreaHelper#lowerCorner}.
    */
   @Shadow
   @Nullable
   private BlockPos lowerCorner;
   /**
-   * Shadowed {@link NetherPortal#width}.
+   * Shadowed {@link AreaHelper#width}.
    */
   @Shadow
   private int width;
   /**
-   * Shadowed {@link NetherPortal#height}.
+   * Shadowed {@link AreaHelper#height}.
    */
   @Shadow
   private int height;
@@ -64,17 +64,17 @@ public abstract class NetherPortalMixin implements NightworldPortalChecker {
   private boolean isNightworldPortal = false;
 
   /**
-   * Shadowed {@link NetherPortal#validStateInsidePortal(BlockState)}.
+   * Shadowed {@link AreaHelper#validStateInsidePortal(BlockState)}.
    * 
    * @return whether the state is valid.
    */
   @Shadow
   private static boolean validStateInsidePortal(BlockState state) {
-    throw new UnsupportedOperationException("Tried to call a dummy body of a shadowed method: NetherPortal#validStateInsidePortal(BlockState)");
+    throw new UnsupportedOperationException("Tried to call a dummy body of a shadowed method: AreaHelper#validStateInsidePortal(BlockState)");
   }
 
   /**
-   * Shadowed {@link NetherPortal#isValid()}.
+   * Shadowed {@link AreaHelper#isValid()}.
    * 
    * @return whether the portal is valid.
    */
@@ -82,7 +82,7 @@ public abstract class NetherPortalMixin implements NightworldPortalChecker {
   public abstract boolean isValid();
 
   /**
-   * Accessor to allow changes to {@link NetherPortal#width}.
+   * Accessor to allow changes to {@link AreaHelper#width}.
    * 
    * @param width
    */
@@ -133,7 +133,7 @@ public abstract class NetherPortalMixin implements NightworldPortalChecker {
   }
 
   /**
-   * Copy-paste of {@link NetherPortal#getLowerCorner(BlockPos)}, changed only to use Crying Obsidian.
+   * Copy-paste of {@link AreaHelper#getLowerCorner(BlockPos)}, changed only to use Crying Obsidian.
    * 
    * @param pos
    * @return
@@ -141,7 +141,7 @@ public abstract class NetherPortalMixin implements NightworldPortalChecker {
   @Nullable
   private BlockPos getLowerCornerForNightworld(BlockPos pos) {
     int i = Math.max(this.world.getBottomY(), pos.getY() - 21);
-    while (pos.getY() > i && NetherPortalMixin.validStateInsidePortal(this.world.getBlockState(pos.down()))) {
+    while (pos.getY() > i && AreaHelperMixin.validStateInsidePortal(this.world.getBlockState(pos.down()))) {
       pos = pos.down();
     }
     Direction direction = this.negativeDir.getOpposite();
@@ -153,7 +153,7 @@ public abstract class NetherPortalMixin implements NightworldPortalChecker {
   }
 
   /**
-   * Copy-paste of {@link NetherPortal#getWidth()}, changed only to use Crying Obsidian.
+   * Copy-paste of {@link AreaHelper#getWidth()}, changed only to use Crying Obsidian.
    * 
    * @return
    */
@@ -166,7 +166,7 @@ public abstract class NetherPortalMixin implements NightworldPortalChecker {
   }
 
   /**
-   * Copy-paste of {@link NetherPortal#getWidth(BlockPos, Direction)}, changed only to use Crying Obsidian.
+   * Copy-paste of {@link AreaHelper#getWidth(BlockPos, Direction)}, changed only to use Crying Obsidian.
    * 
    * @param pos
    * @param direction
@@ -177,7 +177,7 @@ public abstract class NetherPortalMixin implements NightworldPortalChecker {
     for (int i = 0; i <= 21; ++i) {
       mutable.set(pos).move(direction, i);
       BlockState blockState = this.world.getBlockState(mutable);
-      if (!NetherPortalMixin.validStateInsidePortal(blockState)) {
+      if (!AreaHelperMixin.validStateInsidePortal(blockState)) {
         if (!blockState.isOf(Blocks.CRYING_OBSIDIAN)) break;
         return i;
       }
@@ -188,7 +188,7 @@ public abstract class NetherPortalMixin implements NightworldPortalChecker {
   }
 
   /**
-   * Copy-paste of {@link NetherPortal#getHeight()}, changed only to use Crying Obsidian.
+   * Copy-paste of {@link AreaHelper#getHeight()}, changed only to use Crying Obsidian.
    * 
    * @return
    */
@@ -202,7 +202,7 @@ public abstract class NetherPortalMixin implements NightworldPortalChecker {
   }
 
   /**
-   * Copy-paste of {@link NetherPortal#isHorizontalFrameValid(BlockPos.Mutable, int)}, changed only to use Crying Obsidian.
+   * Copy-paste of {@link AreaHelper#isHorizontalFrameValid(BlockPos.Mutable, int)}, changed only to use Crying Obsidian.
    * 
    * @param pos
    * @param height
@@ -218,7 +218,7 @@ public abstract class NetherPortalMixin implements NightworldPortalChecker {
   }
 
   /**
-   * Copy-paste of {@link NetherPortal#getPotentialHeight(BlockPos.Mutable)}, changed only to use Crying Obsidian.
+   * Copy-paste of {@link AreaHelper#getPotentialHeight(BlockPos.Mutable)}, changed only to use Crying Obsidian.
    * 
    * @param pos
    * @return
@@ -236,7 +236,7 @@ public abstract class NetherPortalMixin implements NightworldPortalChecker {
       for (int j = 0; j < this.width; ++j) {
         pos.set(this.lowerCorner).move(Direction.UP, i).move(this.negativeDir, j);
         BlockState blockState = this.world.getBlockState(pos);
-        if (!NetherPortalMixin.validStateInsidePortal(blockState)) {
+        if (!AreaHelperMixin.validStateInsidePortal(blockState)) {
           return i;
         }
         if (!blockState.isOf(Blocks.NETHER_PORTAL)) continue;

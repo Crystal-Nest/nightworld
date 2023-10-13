@@ -4,7 +4,7 @@ import net.minecraft.block.NetherPortalBlock;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction.Axis;
 import net.minecraft.world.World;
-import net.minecraft.world.dimension.NetherPortal;
+import net.minecraft.world.dimension.AreaHelper;
 
 /**
  * Handles checking whether a Nether Portal frame makes the portal a Nightworld Portal.
@@ -18,7 +18,7 @@ public interface NightworldPortalChecker {
    * @return
    */
   public static boolean isNightworldPortal(World world, BlockPos pos) {
-    return ((NightworldPortalChecker) new NetherPortal(world, pos, world.getBlockState(pos).getOrEmpty(NetherPortalBlock.AXIS).orElse(Axis.X))).isNightworldPortal();
+    return ((NightworldPortalChecker) new AreaHelper(world, pos, world.getBlockState(pos).getOrEmpty(NetherPortalBlock.AXIS).orElse(Axis.X))).isNightworldPortal();
   }
 
   /**

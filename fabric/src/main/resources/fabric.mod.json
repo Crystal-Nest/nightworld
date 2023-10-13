@@ -30,6 +30,6 @@
     "java": ">=17"
   },
 	"suggests": {
-		"disable_custom_worlds_advice": "^4.0"
+		"disable_custom_worlds_advice": "^3.0"
 	}
 }

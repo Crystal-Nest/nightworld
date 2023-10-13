@@ -5,9 +5,9 @@
   "package": "crystalspider.nightworld.mixin",
   "mixins": [
     "AbstractFireBlockMixin",
+    "AreaHelperMixin",
     "EntityMixin",
     "NetherPortalBlockMixin",
-    "NetherPortalMixin",
     "PortalForcerMixin",
     "ServerPlayerEntityMixin"
   ]

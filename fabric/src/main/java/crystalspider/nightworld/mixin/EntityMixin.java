@@ -26,7 +26,7 @@ import net.minecraft.world.BlockLocating.Rectangle;
 import net.minecraft.world.TeleportTarget;
 import net.minecraft.world.World;
 import net.minecraft.world.border.WorldBorder;
-import net.minecraft.world.dimension.NetherPortal;
+import net.minecraft.world.dimension.AreaHelper;
 
 /**
  * Injects into {@link Entity} to alter dimension travel.
@@ -193,13 +193,13 @@ public abstract class EntityMixin {
       BlockState blockState = world.getBlockState(this.lastNetherPortalPosition);
       if (blockState.contains(Properties.HORIZONTAL_AXIS)) {
         axis = blockState.get(Properties.HORIZONTAL_AXIS);
-        Rectangle rectangle = BlockLocating.getLargestRectangle(this.lastNetherPortalPosition, axis, NetherPortal.MAX_WIDTH, Axis.Y, NetherPortal.field_31824, pos -> world.getBlockState(pos) == blockState);
+        Rectangle rectangle = BlockLocating.getLargestRectangle(this.lastNetherPortalPosition, axis, AreaHelper.MAX_WIDTH, Axis.Y, AreaHelper.field_31824, pos -> world.getBlockState(pos) == blockState);
         vec3d = this.positionInPortal(axis, rectangle);
       } else {
         axis = Axis.X;
         vec3d = new Vec3d(0.5, 0.0, 0.0);
       }
-      return NetherPortal.getNetherTeleportTarget(destination, rect, axis, vec3d, caller, getVelocity(), getYaw(), getPitch());
+      return AreaHelper.getNetherTeleportTarget(destination, rect, axis, vec3d, caller.getDimensions(caller.getPose()), getVelocity(), getYaw(), getPitch());
     }).orElse(null);
   }
 }

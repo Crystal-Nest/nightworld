@@ -25,8 +25,11 @@
   ],
   "depends": {
     "fabricloader": ">=${loader_version}",
-    "fabric": "*",
+    "fabric-api": "*",
     "minecraft": "${minecraft_version}",
     "java": ">=17"
-  }
+  },
+	"suggests": {
+		"disable_custom_worlds_advice": "^4.0"
+	}
 }

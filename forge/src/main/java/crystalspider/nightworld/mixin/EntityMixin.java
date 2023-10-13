@@ -7,6 +7,7 @@ import org.spongepowered.asm.mixin.Shadow;
 
 import crystalspider.nightworld.api.EntityPortal;
 import crystalspider.nightworld.api.MinecraftEntity;
+import crystalspider.nightworld.api.Teleportable;
 import net.minecraft.BlockUtil.FoundRectangle;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction.Axis;
@@ -15,10 +16,10 @@ import net.minecraft.world.entity.Entity;
 import net.minecraft.world.level.border.WorldBorder;
 import net.minecraft.world.phys.Vec3;
 
-// FIXME: class net.minecraft.server.level.ServerPlayer cannot be cast to class crystalspider.nightworld.api.EntityPortal (net.minecraft.server.level.ServerPlayer is in module minecraft@1.19.4 of loader 'TRANSFORMER' @507d64aa; crystalspider.nightworld.api.EntityPortal is in module nightworld@1.0.0.0 of loader 'TRANSFORMER' @507d64aa)
+// FIXME: class net.minecraft.server.level.ServerPlayer cannot be cast to class crystalspider.nightworld.api.Teleportable (net.minecraft.server.level.ServerPlayer is in module minecraft@1.19.4 of loader 'TRANSFORMER' @60b34931; crystalspider.nightworld.api.Teleportable is in module nightworld@1.0.0.0 of loader 'TRANSFORMER' @60b34931)
 
 @Mixin(Entity.class)
-public abstract class EntityMixin implements EntityPortal, MinecraftEntity {
+public abstract class EntityMixin implements Teleportable, EntityPortal, MinecraftEntity {
   /**
    * Shadowed {@link Entity#portalEntrancePos}.
    */

@@ -8,7 +8,6 @@ import org.spongepowered.asm.mixin.injection.Redirect;
 import crystalspider.nightworld.NightworldLoader;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
-import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.BaseFireBlock;
 import net.minecraft.world.level.block.Blocks;
@@ -56,19 +55,17 @@ public abstract class BaseFireBlockMixin {
   }
 
   /**
-   * Redirects the call to {@link BlockState#isPortalFrame(BlockGetter, BlockPos)} inside the method {@link BaseFireBlock#isPortal(Level, BlockPos, Direction)}.
+   * Redirects the call to {@link Level#getBlockState(BlockPos)} inside the method {@link BaseFireBlock#isPortal(Level, BlockPos, Direction)}.
    * <p>
-   * Also checks if the {@link BlockState} is {@link Blocks#CRYING_OBSIDIAN Crying Obsidian}.
+   * If the {@link BlockState} is {@link Blocks#CRYING_OBSIDIAN Crying Obsidian}, returns {@link Blocks#OBSIDIAN Obsidian} instead.
    * 
    * @param caller
-   * @param level
    * @param pos
-   * @return whether the {@link BlockState} is a Portal Frame block or {@link Blocks#CRYING_OBSIDIAN Crying Obsidian}.
+   * @return {@link Blocks#OBSIDIAN Obsidian} or the original {@link BlockState}.
    */
-  // FIXME: warning: Unable to locate method mapping for @At(INVOKE.<target>) 'Lnet/minecraft/world/level/block/state/BlockState;isPortalFrame(Lnet/minecraft/world/level/BlockGetter;Lnet/minecraft/core/BlockPos;)Z'
-  @Redirect(method = "isPortal", at = @At(value = "INVOKE", target = "Lnet/minecraft/world/level/block/state/BlockState;isPortalFrame(Lnet/minecraft/world/level/BlockGetter;Lnet/minecraft/core/BlockPos;)Z"))
-  private static boolean redirectIsOf$isPortal(BlockState caller, BlockGetter level, BlockPos pos) {
-    return caller.isPortalFrame(level, pos) || caller.is(Blocks.CRYING_OBSIDIAN);
+  @Redirect(method = "isPortal", at = @At(value = "INVOKE", target = "Lnet/minecraft/world/level/Level;getBlockState(Lnet/minecraft/core/BlockPos;)Lnet/minecraft/world/level/block/state/BlockState;"))
+  private static BlockState redirectIsOf$isPortal(Level caller, BlockPos pos) {
+    return caller.getBlockState(pos).is(Blocks.CRYING_OBSIDIAN) ? Blocks.OBSIDIAN.defaultBlockState() : caller.getBlockState(pos);
   }
 
   /**

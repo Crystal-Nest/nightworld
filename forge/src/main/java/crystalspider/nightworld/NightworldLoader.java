@@ -1,5 +1,7 @@
 package crystalspider.nightworld;
 
+import org.jetbrains.annotations.ApiStatus.Internal;
+
 import net.minecraft.core.registries.Registries;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
@@ -31,11 +33,17 @@ public class NightworldLoader {
   /**
    * {@link ResourceKey} for the dimension.
    */
-  public static final ResourceKey<Level> NIGHTWORLD_DIMENSION = ResourceKey.create(Registries.DIMENSION, new ResourceLocation(MODID, "nightworld"));
+  public static final ResourceKey<Level> NIGHTWORLD = ResourceKey.create(Registries.DIMENSION, new ResourceLocation(MODID, "nightworld"));
   /**
    * {@link ResourceKey} for the dimension type.
    */
-  public static final ResourceKey<DimensionType> NIGHTWORLD_TYPE = ResourceKey.create(Registries.DIMENSION_TYPE, NIGHTWORLD_DIMENSION.location());
+  public static final ResourceKey<DimensionType> NIGHTWORLD_TYPE = ResourceKey.create(Registries.DIMENSION_TYPE, NIGHTWORLD.location());
+
+  /**
+   * {@link ThreadLocal} to keep track of a player's origin dimension when teleporting through a Nether/Nightworld portal.
+   */
+  @Internal()
+  public static final ThreadLocal<Boolean> nightworldOriginThread = ThreadLocal.withInitial(() -> false);
 
   public NightworldLoader() {}
 }

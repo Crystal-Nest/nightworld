@@ -21,7 +21,7 @@ import net.minecraft.world.BlockView;
 import net.minecraft.world.World;
 
 /**
- * Injects into {@link NetherPortalBlock} to 
+ * Injects into {@link NetherPortalBlock} to alter Nightworld Portals mob spawn.
  */
 @Mixin(NetherPortalBlock.class)
 public abstract class NetherPortalBlockMixin {
@@ -38,9 +38,8 @@ public abstract class NetherPortalBlockMixin {
    */
   @Inject(method = "randomTick", at = @At(value = "INVOKE", target = "Lnet/minecraft/block/BlockState;allowsSpawning(Lnet/minecraft/world/BlockView;Lnet/minecraft/util/math/BlockPos;Lnet/minecraft/entity/EntityType;)Z", shift = Shift.BEFORE))
   private void onRandomTick(BlockState state, ServerWorld world, BlockPos pos, Random random, CallbackInfo ci) {
-    System.out.println("Inject: " + NightworldPortalChecker.isNightworldPortal(world, pos.up()) + "; " + pos);
     if (NightworldPortalChecker.isNightworldPortal(world, pos.up())) {
-      if (random.nextBetween(0, 100) < 50) {
+      if (random.nextBetweenExclusive(0, 100) < 50) {
         this.handleSpawnEntity(EntityType.ZOMBIE, state, world, pos);
       } else {
         this.handleSpawnEntity(EntityType.SKELETON, state, world, pos);
@@ -61,7 +60,6 @@ public abstract class NetherPortalBlockMixin {
    */
   @Redirect(method = "randomTick", at = @At(value = "INVOKE", target = "Lnet/minecraft/block/BlockState;allowsSpawning(Lnet/minecraft/world/BlockView;Lnet/minecraft/util/math/BlockPos;Lnet/minecraft/entity/EntityType;)Z"))
   private boolean redirectAllowsSpawning(BlockState caller, BlockView world, BlockPos pos, EntityType<ZombifiedPiglinEntity> entityType) {
-    System.out.println("Redirect: " + NightworldPortalChecker.isNightworldPortal((World) world, pos.up()) + "; " + pos);
     return !NightworldPortalChecker.isNightworldPortal((World) world, pos.up()) && caller.allowsSpawning(world, pos, entityType);
   }
 

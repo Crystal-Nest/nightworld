@@ -56,7 +56,6 @@ public abstract class AbstractFireBlockMixin {
   }
 
   /**
-   * 
    * Redirects the call to {@link BlockState#isOf(Block)} inside the method {@link AbstractFireBlock#shouldLightPortalAt(World, BlockPos, Direction)}.
    * <p>
    * Also checks if the {@link BlockState} is {@link Blocks#CRYING_OBSIDIAN Crying Obsidian}.

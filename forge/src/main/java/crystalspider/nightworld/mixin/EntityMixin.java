@@ -4,20 +4,28 @@ import java.util.Optional;
 
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
+import org.spongepowered.asm.mixin.injection.At;
+import org.spongepowered.asm.mixin.injection.Redirect;
 
+import crystalspider.nightworld.NightworldLoader;
 import crystalspider.nightworld.api.EntityPortal;
 import crystalspider.nightworld.api.MinecraftEntity;
+import crystalspider.nightworld.api.NightworldPortalChecker;
 import crystalspider.nightworld.api.Teleportable;
 import net.minecraft.BlockUtil.FoundRectangle;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction.Axis;
+import net.minecraft.resources.ResourceKey;
+import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.entity.Entity;
+import net.minecraft.world.level.Level;
 import net.minecraft.world.level.border.WorldBorder;
 import net.minecraft.world.phys.Vec3;
 
-// FIXME: class net.minecraft.server.level.ServerPlayer cannot be cast to class crystalspider.nightworld.api.Teleportable (net.minecraft.server.level.ServerPlayer is in module minecraft@1.19.4 of loader 'TRANSFORMER' @60b34931; crystalspider.nightworld.api.Teleportable is in module nightworld@1.0.0.0 of loader 'TRANSFORMER' @60b34931)
-
+/**
+ * Injects into {@link Entity} to alter dimension travel.
+ */
 @Mixin(Entity.class)
 public abstract class EntityMixin implements Teleportable, EntityPortal, MinecraftEntity {
   /**
@@ -26,6 +34,15 @@ public abstract class EntityMixin implements Teleportable, EntityPortal, Minecra
   @Shadow
   public BlockPos portalEntrancePos;
 
+  /**
+   * Shadowed {@link Entity#getExitPortal(ServerLevel, BlockPos, boolean, WorldBorder)}.
+   * 
+   * @param destination
+   * @param pos
+   * @param destIsNether
+   * @param worldBorder
+   * @return
+   */
   @Shadow
   protected abstract Optional<FoundRectangle> getExitPortal(ServerLevel destination, BlockPos pos, boolean destIsNether, WorldBorder worldBorder);
 
@@ -42,5 +59,29 @@ public abstract class EntityMixin implements Teleportable, EntityPortal, Minecra
   @Override
   public BlockPos portalEntrancePos() {
     return portalEntrancePos;
+  }
+
+  /**
+   * Redirects the call to {@link Entity#getLevel()} inside the method {@link Entity#handleNetherPortal()}.
+   * <p>
+   * Optionally changes the destination dimension.
+   * 
+   * @param caller
+   * @param worldKey
+   * @return
+   */
+  @Redirect(method = "handleNetherPortal", at = @At(value = "INVOKE", target = "Lnet/minecraft/server/MinecraftServer;getLevel(Lnet/minecraft/resources/ResourceKey;)Lnet/minecraft/server/level/ServerLevel;"))
+  private ServerLevel redirectGetLevel(MinecraftServer caller, ResourceKey<Level> worldKey) {
+    Level origin = getLevel();
+    ServerLevel destination = caller.getLevel(worldKey);
+    if (
+      destination != null &&
+      (origin.dimension() == Level.OVERWORLD || origin.dimension() == NightworldLoader.NIGHTWORLD) &&
+      destination.dimension() == Level.NETHER &&
+      NightworldPortalChecker.isNightworldPortal(origin, portalEntrancePos())
+    ) {
+      destination = caller.getLevel(origin.dimension() == Level.OVERWORLD ? NightworldLoader.NIGHTWORLD : Level.OVERWORLD);
+    }
+    return destination;
   }
 }

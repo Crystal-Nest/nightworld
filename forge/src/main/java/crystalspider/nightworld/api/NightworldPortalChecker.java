@@ -20,7 +20,6 @@ public interface NightworldPortalChecker {
   public static boolean isNightworldPortal(Level world, BlockPos pos) {
     return ((NightworldPortalChecker) new PortalShape(world, pos, world.getBlockState(pos).getOptionalValue(NetherPortalBlock.AXIS).orElse(Axis.X))).isNightworldPortal();
   }
-
   /**
    * Whether the portal is a Nightworld Portal.
    * 

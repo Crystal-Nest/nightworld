@@ -35,7 +35,6 @@ public abstract class NetherPortalMixin implements NightworldPortalChecker {
    * Shadowed {@link NetherPortal#negativeDir}.
    */
   @Shadow
-  @Nullable
   private Direction negativeDir;
   /**
    * Shadowed {@link NetherPortal#foundPortalBlocks}.
@@ -46,6 +45,7 @@ public abstract class NetherPortalMixin implements NightworldPortalChecker {
    * Shadowed {@link NetherPortal#lowerCorner}.
    */
   @Shadow
+  @Nullable
   private BlockPos lowerCorner;
   /**
    * Shadowed {@link NetherPortal#width}.

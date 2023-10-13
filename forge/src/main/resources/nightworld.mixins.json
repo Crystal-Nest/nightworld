@@ -1,0 +1,15 @@
+{
+  "required": true,
+  "minVersion": "0.8",
+  "compatibilityLevel": "JAVA_17",
+  "refmap": "nightworld.refmap.json",
+  "package": "crystalspider.nightworld.mixin",
+  "mixins": [
+    "BaseFireBlockMixin",
+    "EntityAndPlayerMixin",
+    "EntityMixin",
+    "NetherPortalBlockMixin",
+    "PortalForcerMixin",
+    "PortalShapeMixin"
+  ]
+}

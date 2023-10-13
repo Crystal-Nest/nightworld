@@ -1,20 +1,10 @@
-buildscript {
-  repositories {
-    // These repositories are only for Gradle plugins, put any other repositories in the repository block further below
-    maven { url = "https://maven.minecraftforge.net" }
-    mavenCentral()
-  }
-  dependencies {
-    classpath group: "net.minecraftforge.gradle", name: "ForgeGradle", version: "5.1.+", changing: true
-  }
-}
-// Only edit below this line, the above code adds and enables the necessary things for Forge to be setup.
 plugins {
+  id 'net.minecraftforge.gradle' version '[6.0,6.2)'
   id "com.modrinth.minotaur" version "2.+"
   id "com.matthewprenger.cursegradle" version "1.4.+"
   id "com.github.breadmoirai.github-release" version "2.4.+"
+  id 'org.spongepowered.mixin' version '0.7.+'
 }
-apply plugin: "net.minecraftforge.gradle"
 
 archivesBaseName = modid
 version = "${minecraft_version}-${mod_version}-${loader.toLowerCase()}"
@@ -83,6 +73,12 @@ repositories {}
 
 dependencies {
   minecraft "net.minecraftforge:forge:${minecraft_version}-${loader_version}${forge_subversion}"
+  annotationProcessor "org.spongepowered:mixin:0.8.5:processor"
+}
+
+mixin {
+  add sourceSets.main, "nightworld.refmap.json"
+  config "nightworld.mixins.json"
 }
 
 def resourceTarget = "META-INF/mods.toml"

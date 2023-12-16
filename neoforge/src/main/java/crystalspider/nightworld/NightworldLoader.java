@@ -14,26 +14,26 @@ import net.neoforged.neoforge.network.simple.SimpleChannel;
 /**
  * Torch hit! mod loader.
  */
-@Mod(NightworldLoader.MODID)
+@Mod(NightworldLoader.MOD_ID)
 public class NightworldLoader {
   /**
    * ID of this mod.
    */
-  public static final String MODID = "nightworld";
+  public static final String MOD_ID = "nightworld";
 
   /**
    * Network channel protocol version.
    */
-  public static final String PROTOCOL_VERSION = "1.20.2-1.0";
+  public static final String PROTOCOL_VERSION = "1.20.4-1.0";
   /**
    * {@link SimpleChannel} instance for compatibility client-server.
    */
-  public static final SimpleChannel INSTANCE = ChannelBuilder.named(new ResourceLocation(MODID, "main")).networkProtocolVersion(() -> PROTOCOL_VERSION).serverAcceptedVersions((version) -> true).clientAcceptedVersions(PROTOCOL_VERSION::equals).simpleChannel();
+  public static final SimpleChannel INSTANCE = ChannelBuilder.named(new ResourceLocation(MOD_ID, "main")).networkProtocolVersion(() -> PROTOCOL_VERSION).clientAcceptedVersions(PROTOCOL_VERSION::equals).serverAcceptedVersions((version) -> true).simpleChannel();
 
   /**
    * {@link ResourceKey} for the dimension.
    */
-  public static final ResourceKey<Level> NIGHTWORLD = ResourceKey.create(Registries.DIMENSION, new ResourceLocation(MODID, "nightworld"));
+  public static final ResourceKey<Level> NIGHTWORLD = ResourceKey.create(Registries.DIMENSION, new ResourceLocation(MOD_ID, "nightworld"));
   /**
    * {@link ResourceKey} for the dimension type.
    */

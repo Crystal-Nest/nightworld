@@ -14,26 +14,26 @@ import net.minecraftforge.network.SimpleChannel;
 /**
  * Torch hit! mod loader.
  */
-@Mod(NightworldLoader.MODID)
+@Mod(NightworldLoader.MOD_ID)
 public class NightworldLoader {
   /**
    * ID of this mod.
    */
-  public static final String MODID = "nightworld";
+  public static final String MOD_ID = "nightworld";
 
   /**
    * Network channel protocol version.
    */
-  public static final int PROTOCOL_VERSION = 1_20__1_0;
+  public static final int PROTOCOL_VERSION = 1_20_4__1_0;
   /**
    * {@link SimpleChannel} instance for compatibility client-server.
    */
-  public static final SimpleChannel INSTANCE = ChannelBuilder.named(new ResourceLocation(MODID, "main")).networkProtocolVersion(PROTOCOL_VERSION).optionalClient().simpleChannel();
+  public static final SimpleChannel INSTANCE = ChannelBuilder.named(new ResourceLocation(MOD_ID, "main")).networkProtocolVersion(PROTOCOL_VERSION).optionalClient().simpleChannel();
 
   /**
    * {@link ResourceKey} for the dimension.
    */
-  public static final ResourceKey<Level> NIGHTWORLD = ResourceKey.create(Registries.DIMENSION, new ResourceLocation(MODID, "nightworld"));
+  public static final ResourceKey<Level> NIGHTWORLD = ResourceKey.create(Registries.DIMENSION, new ResourceLocation(MOD_ID, "nightworld"));
   /**
    * {@link ResourceKey} for the dimension type.
    */

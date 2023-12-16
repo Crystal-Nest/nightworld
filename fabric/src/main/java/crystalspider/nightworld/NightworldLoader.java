@@ -16,12 +16,12 @@ public class NightworldLoader implements ModInitializer {
   /**
    * ID of this mod.
    */
-  public static final String MODID = "nightworld";
+  public static final String MOD_ID = "nightworld";
 
   /**
    * {@link RegistryKey} for the dimension.
    */
-  public static final RegistryKey<World> NIGHTWORLD = RegistryKey.of(RegistryKeys.WORLD, new Identifier(MODID, "nightworld"));
+  public static final RegistryKey<World> NIGHTWORLD = RegistryKey.of(RegistryKeys.WORLD, new Identifier(MOD_ID, "nightworld"));
   /**
    * {@link RegistryKey} for the dimension type.
    */

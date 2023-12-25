@@ -27,8 +27,7 @@ It's a perfect choice for both multiplayer servers who need the nighttime but ca
 | :-: | :----: | :---------: |
 | [Crying Portals](https://www.curseforge.com/minecraft/mc-mods/crying-portals) | Forge/Fabric | Incompatible |
 | [Lithium](https://modrinth.com/mod/lithium) | Fabric | Compatible with [Fast Portals disabled](https://github.com/CaffeineMC/lithium-fabric/blob/develop/lithium-mixin-config.md#mixinaipoifast_portals) |
-| [Shutup Experimental Settings!](https://www.curseforge.com/minecraft/mc-mods/shutup-experimental-settings) | Forge | Suggested |
-| [Disable Custom Worlds Advice](https://www.curseforge.com/minecraft/mc-mods/fabric-disable-custom-worlds-advice) | Fabric | Suggested |
+| [Very Many Players](https://modrinth.com/mod/vmp-fabric) | Fabric | Compatible with `use_async_portals=false` |
 
 ## **License and right of use**
 Feel free to use this mod for any modpack or video, just be sure to give credit and possibly link [here](https://github.com/Nyphet/nightworld#readme).  

@@ -31,14 +31,14 @@ and this project adheres to [Forge Semantic Versioning](https://mcforge.readthed
 - Add Nightworld dimension and its portal frame.
 - Add spawn of zombies and skeletons in Nightworld portals.
 
-[Unreleased]: https://github.com/Nyphet/nightworld
+[Unreleased]: https://github.com/crystal-nest/nightworld
 
-[1.20.4-1.0.0.0]: https://github.com/Nyphet/nightworld/releases/tag/v1.20.4-1.0.0.0
+[1.20.4-1.0.0.0]: https://github.com/crystal-nest/nightworld/releases/tag/v1.20.4-1.0.0.0
 
-[1.20.2-1.0.0.0]: https://github.com/Nyphet/nightworld/releases/tag/v1.20.2-1.0.0.0
+[1.20.2-1.0.0.0]: https://github.com/crystal-nest/nightworld/releases/tag/v1.20.2-1.0.0.0
 
-[1.20.1-1.0.0.0]: https://github.com/Nyphet/nightworld/releases/tag/v1.20.1-1.0.0.0
+[1.20.1-1.0.0.0]: https://github.com/crystal-nest/nightworld/releases/tag/v1.20.1-1.0.0.0
 
-[1.19.4-1.0.0.0]: https://github.com/Nyphet/nightworld/releases/tag/v1.19.4-1.0.0.0
+[1.19.4-1.0.0.0]: https://github.com/crystal-nest/nightworld/releases/tag/v1.19.4-1.0.0.0
 
-[1.19.2-1.0.0.0]: https://github.com/Nyphet/nightworld/releases/tag/v1.19.2-1.0.0.0
+[1.19.2-1.0.0.0]: https://github.com/crystal-nest/nightworld/releases/tag/v1.19.2-1.0.0.0

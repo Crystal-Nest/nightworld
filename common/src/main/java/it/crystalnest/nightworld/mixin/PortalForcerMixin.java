@@ -1,14 +1,6 @@
 package it.crystalnest.nightworld.mixin;
 
-import java.util.function.Predicate;
-import java.util.stream.Stream;
-
 import it.crystalnest.nightworld.Constants;
-import org.spongepowered.asm.mixin.Mixin;
-import org.spongepowered.asm.mixin.Shadow;
-import org.spongepowered.asm.mixin.injection.At;
-import org.spongepowered.asm.mixin.injection.Redirect;
-
 import it.crystalnest.nightworld.api.NightworldPortalChecker;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction.Axis;
@@ -19,6 +11,15 @@ import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.border.WorldBorder;
 import net.minecraft.world.level.portal.PortalForcer;
+import org.spongepowered.asm.mixin.Final;
+import org.spongepowered.asm.mixin.Mixin;
+import org.spongepowered.asm.mixin.Shadow;
+import org.spongepowered.asm.mixin.Unique;
+import org.spongepowered.asm.mixin.injection.At;
+import org.spongepowered.asm.mixin.injection.Redirect;
+
+import java.util.function.Predicate;
+import java.util.stream.Stream;
 
 /**
  * Injects into {@link PortalForcer} to alter portal creation and location.
@@ -28,6 +29,7 @@ public abstract class PortalForcerMixin {
     /**
    * Shadowed {@link PortalForcer#level}.
    */
+  @Final
   @Shadow
   private ServerLevel level;
 
@@ -83,6 +85,7 @@ public abstract class PortalForcerMixin {
    * @param state
    * @return the correct {@link BlockState} to create a portal.
    */
+  @Unique
   private BlockState getCorrectBlockState(ServerLevel world, BlockState state) {
     return (world.dimension() == Constants.NIGHTWORLD || Constants.NIGHTWORLD_ORIGIN_THREAD.get()) && state.is(Blocks.OBSIDIAN) ? Blocks.CRYING_OBSIDIAN.defaultBlockState() : state;
   }

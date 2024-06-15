@@ -1,17 +1,6 @@
 package it.crystalnest.nightworld.mixin;
 
 import it.crystalnest.nightworld.Constants;
-import org.jetbrains.annotations.Nullable;
-import org.spongepowered.asm.mixin.Final;
-import org.spongepowered.asm.mixin.Mixin;
-import org.spongepowered.asm.mixin.Mutable;
-import org.spongepowered.asm.mixin.Shadow;
-import org.spongepowered.asm.mixin.Unique;
-import org.spongepowered.asm.mixin.gen.Accessor;
-import org.spongepowered.asm.mixin.injection.At;
-import org.spongepowered.asm.mixin.injection.Inject;
-import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
-
 import it.crystalnest.nightworld.api.NightworldPortalChecker;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
@@ -22,6 +11,16 @@ import net.minecraft.world.level.LevelAccessor;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.portal.PortalShape;
+import org.jetbrains.annotations.Nullable;
+import org.spongepowered.asm.mixin.Final;
+import org.spongepowered.asm.mixin.Mixin;
+import org.spongepowered.asm.mixin.Mutable;
+import org.spongepowered.asm.mixin.Shadow;
+import org.spongepowered.asm.mixin.Unique;
+import org.spongepowered.asm.mixin.gen.Accessor;
+import org.spongepowered.asm.mixin.injection.At;
+import org.spongepowered.asm.mixin.injection.Inject;
+import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 /**
  * Injects into {@link PortalShape} to alter dimension travel.
@@ -178,7 +177,7 @@ public abstract class PortalShapeMixin implements NightworldPortalChecker {
   @Unique
   private int getDistanceUntilEdgeAboveFrameForNightworld(BlockPos pos, Direction direction) {
     BlockPos.MutableBlockPos blockpos$mutableblockpos = new BlockPos.MutableBlockPos();
-    for (int i = 0; i <= 21; ++i) {
+    for (int i = 0; i <= 21; i++) {
       blockpos$mutableblockpos.set(pos).move(direction, i);
       BlockState blockstate = this.level.getBlockState(blockpos$mutableblockpos);
       if (!isEmpty(blockstate)) {
@@ -200,6 +199,7 @@ public abstract class PortalShapeMixin implements NightworldPortalChecker {
    *
    * @return
    */
+  @Unique
   private int calculateHeightForNightworld() {
     BlockPos.MutableBlockPos blockpos$mutableblockpos = new BlockPos.MutableBlockPos();
     int i = this.getDistanceUntilTopForNightworld(blockpos$mutableblockpos);
@@ -213,6 +213,7 @@ public abstract class PortalShapeMixin implements NightworldPortalChecker {
    * @param height
    * @return
    */
+  @Unique
   private boolean hasTopFrameForNightworld(BlockPos.MutableBlockPos pos, int height) {
     for (int i = 0; i < this.width; ++i) {
       BlockPos.MutableBlockPos blockpos$mutableblockpos = pos.set(this.bottomLeft).move(Direction.UP, height).move(this.rightDir, i);
@@ -229,6 +230,7 @@ public abstract class PortalShapeMixin implements NightworldPortalChecker {
    * @param pos
    * @return
    */
+  @Unique
   private int getDistanceUntilTopForNightworld(BlockPos.MutableBlockPos pos) {
     for (int i = 0; i < 21; ++i) {
       pos.set(this.bottomLeft).move(Direction.UP, i).move(this.rightDir, -1);

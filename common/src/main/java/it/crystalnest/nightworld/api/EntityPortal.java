@@ -1,7 +1,5 @@
 package it.crystalnest.nightworld.api;
 
-import java.util.Optional;
-
 import net.minecraft.BlockUtil.FoundRectangle;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction.Axis;
@@ -9,6 +7,8 @@ import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.level.border.WorldBorder;
 import net.minecraft.world.phys.Vec3;
+
+import java.util.Optional;
 
 /**
  * An {@link Entity} interacting with a Portal.

@@ -1,9 +1,8 @@
 package it.crystalnest.nightworld.mixin;
 
-import java.util.Optional;
-
 import it.crystalnest.nightworld.Constants;
 import it.crystalnest.nightworld.api.NightworldPortalChecker;
+import net.fabricmc.fabric.impl.dimension.Teleportable;
 import net.minecraft.BlockUtil;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
@@ -20,14 +19,14 @@ import net.minecraft.world.phys.Vec3;
 import org.jetbrains.annotations.Nullable;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
+import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.At.Shift;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.Redirect;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
-
-import net.fabricmc.fabric.impl.dimension.Teleportable;
+import java.util.Optional;
 
 
 /**
@@ -55,14 +54,6 @@ public abstract class EntityMixin {
    */
   @Shadow
   public abstract BlockPos blockPosition();
-
-  /**
-   * Shadowed {@link Entity#position()}.
-   * 
-   * @return exact entity position.
-   */
-  @Shadow
-  public abstract Vec3 position();
 
   /**
    * Shadowed {@link Entity#getDeltaMovement()}.
@@ -174,6 +165,7 @@ public abstract class EntityMixin {
    * @param destination
    * @return
    */
+  @Unique
   @Nullable
   private PortalInfo getNightworldTeleportTarget(Entity caller, ServerLevel destination) {
     return this.getExitPortal(destination, blockPosition(), false, destination.getWorldBorder()).map(rect -> {

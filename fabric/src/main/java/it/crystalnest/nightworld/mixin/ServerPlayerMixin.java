@@ -15,7 +15,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 
 /**
- * Injects into {@link ServerPlayerEntity} to alter dimension travel.
+ * Injects into {@link ServerPlayerMixin} to alter dimension travel.
  */
 @Mixin(ServerPlayer.class)
 public abstract class ServerPlayerMixin extends Entity {

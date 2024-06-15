@@ -1,6 +1,6 @@
 package it.crystalnest.nightworld.handlers;
 
-import it.crystalnest.nightworld.CommonModLoader;
+import it.crystalnest.nightworld.Constants;
 import it.crystalnest.nightworld.api.EntityPortal;
 import it.crystalnest.nightworld.api.Teleportable;
 import net.minecraft.BlockUtil;
@@ -33,7 +33,7 @@ public class EntityTravelToDimensionEventHandler {
   public static void handle(EntityTravelToDimensionEvent event) {
     Entity entity = event.getEntity();
     MinecraftServer server = entity.getServer();
-    if (server != null && !entity.isRemoved() && (entity.level().dimension() == CommonModLoader.NIGHTWORLD || event.getDimension() == CommonModLoader.NIGHTWORLD)) {
+    if (server != null && !entity.isRemoved() && (entity.level().dimension() == Constants.NIGHTWORLD || event.getDimension() == Constants.NIGHTWORLD)) {
       ((Teleportable) entity).setCustomPortalInfo(getNightworldPortalInfo(entity, server.getLevel(event.getDimension())));
     }
   }

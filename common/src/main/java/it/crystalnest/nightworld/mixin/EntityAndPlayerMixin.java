@@ -2,6 +2,7 @@ package it.crystalnest.nightworld.mixin;
 
 import java.util.Optional;
 
+import it.crystalnest.nightworld.Constants;
 import org.jetbrains.annotations.Nullable;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Unique;
@@ -9,9 +10,7 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
-import it.crystalnest.nightworld.CommonModLoader;
 import it.crystalnest.nightworld.api.EntityPortal;
-import it.crystalnest.nightworld.api.MinecraftEntity;
 import it.crystalnest.nightworld.api.Teleportable;
 import net.minecraft.BlockUtil;
 import net.minecraft.core.BlockPos;
@@ -25,7 +24,7 @@ import net.minecraft.world.level.portal.PortalInfo;
  * Injects into {@link Entity} and {@link ServerPlayer} to alter dimension travel.
  */
 @Mixin({Entity.class, ServerPlayer.class})
-public abstract class EntityAndPlayerMixin implements Teleportable, EntityPortal, MinecraftEntity {
+public abstract class EntityAndPlayerMixin implements Teleportable, EntityPortal  {
   @Unique
 	@Nullable
 	protected PortalInfo customPortalInfo;
@@ -76,6 +75,7 @@ public abstract class EntityAndPlayerMixin implements Teleportable, EntityPortal
    */
   @Inject(method = "getExitPortal", at = @At(value = "HEAD"))
   private void onGetExitPortal(ServerLevel destWorld, BlockPos destPos, boolean destIsNether, WorldBorder worldBorder, CallbackInfoReturnable<Optional<BlockUtil.FoundRectangle>> cir) {
-    CommonModLoader.nightworldOriginThread.set(level().dimension() == CommonModLoader.NIGHTWORLD);
+    Constants.NIGHTWORLD_ORIGIN_THREAD.set(((Entity) (Object) this).level().dimension() == Constants.NIGHTWORLD);
   }
+
 }

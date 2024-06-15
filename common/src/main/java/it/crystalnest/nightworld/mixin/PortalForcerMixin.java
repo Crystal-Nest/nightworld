@@ -3,12 +3,12 @@ package it.crystalnest.nightworld.mixin;
 import java.util.function.Predicate;
 import java.util.stream.Stream;
 
+import it.crystalnest.nightworld.Constants;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Redirect;
 
-import it.crystalnest.nightworld.CommonModLoader;
 import it.crystalnest.nightworld.api.NightworldPortalChecker;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction.Axis;
@@ -73,7 +73,7 @@ public abstract class PortalForcerMixin {
    */
   @Redirect(method = "findPortalAround", at = @At(value = "INVOKE", target = "Ljava/util/stream/Stream;filter(Ljava/util/function/Predicate;)Ljava/util/stream/Stream;", ordinal = 1))
   private Stream<PoiRecord> redirectFilter(Stream<PoiRecord> caller, Predicate<? super PoiRecord> predicate) {
-    return caller.filter(poi -> predicate.test(poi) && (level.dimension() != Level.OVERWORLD || CommonModLoader.nightworldOriginThread.get() == NightworldPortalChecker.isNightworldPortal(level, poi.getPos())));
+    return caller.filter(poi -> predicate.test(poi) && (level.dimension() != Level.OVERWORLD || Constants.NIGHTWORLD_ORIGIN_THREAD.get() == NightworldPortalChecker.isNightworldPortal(level, poi.getPos())));
   }
 
   /**
@@ -84,6 +84,6 @@ public abstract class PortalForcerMixin {
    * @return the correct {@link BlockState} to create a portal.
    */
   private BlockState getCorrectBlockState(ServerLevel world, BlockState state) {
-    return (world.dimension() == CommonModLoader.NIGHTWORLD || CommonModLoader.nightworldOriginThread.get()) && state.is(Blocks.OBSIDIAN) ? Blocks.CRYING_OBSIDIAN.defaultBlockState() : state;
+    return (world.dimension() == Constants.NIGHTWORLD || Constants.NIGHTWORLD_ORIGIN_THREAD.get()) && state.is(Blocks.OBSIDIAN) ? Blocks.CRYING_OBSIDIAN.defaultBlockState() : state;
   }
 }

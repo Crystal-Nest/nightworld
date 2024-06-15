@@ -1,13 +1,13 @@
 package it.crystalnest.nightworld.mixin;
 
-import java.awt.*;
 import java.util.Optional;
 
-import it.crystalnest.nightworld.CommonModLoader;
+import it.crystalnest.nightworld.Constants;
 import it.crystalnest.nightworld.api.NightworldPortalChecker;
 import net.minecraft.BlockUtil;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
+import net.minecraft.server.chase.ChaseClient;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.level.Level;
@@ -36,7 +36,7 @@ import net.fabricmc.fabric.impl.dimension.Teleportable;
 @Mixin(Entity.class)
 public abstract class EntityMixin {
   /**
-   * Shadowed {@link Entity#world}.
+   * Shadowed {@link Entity#level}.
    */
   @Shadow
   public abstract Level level();
@@ -118,7 +118,7 @@ public abstract class EntityMixin {
   protected abstract Optional <BlockUtil.FoundRectangle> getExitPortal(ServerLevel destWorld, BlockPos destPos, boolean destIsNether, WorldBorder worldBorder);
 
   /**
-   * Shadowed {@link Entity#getRelativePortalPosition(Direction.Axis, Rectangle)}.
+   * Shadowed {@link Entity#getRelativePortalPosition(Direction.Axis,  BlockUtil.FoundRectangle)}.
    * 
    * @param portalAxis
    * @param portalRect
@@ -128,9 +128,9 @@ public abstract class EntityMixin {
   protected abstract Vec3 getRelativePortalPosition(Direction.Axis portalAxis, BlockUtil.FoundRectangle portalRect);
 
   /**
-   * Redirects the call to {@link Entity#moveToWorld(ServerWorld)} inside the method {@link Entity#tickPortal()}.
+   * Redirects the call to {@link Entity#handleNetherPortal()} inside the method {@link Entity#tick()}.
    * <p>
-   * Changes the {@link TeleportTarget} if the entity is in a Nightworld Portal.
+   * Changes the {@link ChaseClient.TeleportTarget} if the entity is in a Nightworld Portal.
    * 
    * @param caller
    * @param destination
@@ -142,11 +142,11 @@ public abstract class EntityMixin {
     if (
       !level().isClientSide &&
       !this.isRemoved() &&
-      (level().dimension() == Level.OVERWORLD || level().dimension() == CommonModLoader.NIGHTWORLD) &&
+      (level().dimension() == Level.OVERWORLD || level().dimension() == Constants.NIGHTWORLD) &&
       destination.dimension() == Level.NETHER &&
       NightworldPortalChecker.isNightworldPortal(level(), portalEntrancePos)
     ) {
-      actualDestination = ((ServerLevel) level()).getServer().getLevel(level().dimension() == Level.OVERWORLD ? CommonModLoader.NIGHTWORLD : Level.OVERWORLD);
+      actualDestination = ((ServerLevel) level()).getServer().getLevel(level().dimension() == Level.OVERWORLD ? Constants.NIGHTWORLD : Level.OVERWORLD);
       ((Teleportable) this).fabric_setCustomTeleportTarget(this.getNightworldTeleportTarget(caller, actualDestination));
     }
     return this.changeDimension(actualDestination);
@@ -155,7 +155,7 @@ public abstract class EntityMixin {
 
 
   /**
-   * Injects into the method {@link Entity#onMoveToWorld(ServerLevel)} after the call to {@link Entity#getTeleportTarget(ServerWorld)}.
+   * Injects into the method {@link Entity#changeDimension(ServerLevel)} after the call to {Entity#getTeleportTarget(ServerWorld)}.
    * <p>
    * Resets the {@link net.fabricmc.fabric.mixin.dimension.EntityMixin#customTeleportTarget customTeleportTarget}.
    * 
@@ -168,7 +168,7 @@ public abstract class EntityMixin {
   }
 
   /**
-   * Partial copy-paste of {@link Entity#getTeleportTarget(ServerWorld)}, changed to return the proper {@link TeleportTarget} for teleporting into the Nightworld.
+   * Partial copy-paste of {Entity#getTeleportTarget(ServerWorld)}, changed to return the proper {TeleportTarget} for teleporting into the Nightworld.
    * 
    * @param caller
    * @param destination

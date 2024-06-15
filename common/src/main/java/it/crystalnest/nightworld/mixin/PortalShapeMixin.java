@@ -1,15 +1,17 @@
 package it.crystalnest.nightworld.mixin;
 
+import it.crystalnest.nightworld.Constants;
 import org.jetbrains.annotations.Nullable;
+import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Mutable;
 import org.spongepowered.asm.mixin.Shadow;
+import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.gen.Accessor;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
-import it.crystalnest.nightworld.CommonModLoader;
 import it.crystalnest.nightworld.api.NightworldPortalChecker;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
@@ -29,29 +31,37 @@ public abstract class PortalShapeMixin implements NightworldPortalChecker {
   /**
    * Shadowed {@link PortalShape#level}.
    */
+  @Final
   @Shadow
   private LevelAccessor level;
+
   /**
    * Shadowed {@link PortalShape#rightDir}.
    */
+  @Final
   @Shadow
   private Direction rightDir;
+
   /**
    * Shadowed {@link PortalShape#numPortalBlocks}.
    */
   @Shadow
   private int numPortalBlocks;
+
   /**
    * Shadowed {@link PortalShape#bottomLeft}.
    */
   @Shadow
   @Nullable
   private BlockPos bottomLeft;
+
   /**
    * Shadowed {@link PortalShape#width}.
    */
+  @Final
   @Shadow
   private int width;
+
   /**
    * Shadowed {@link PortalShape#height}.
    */
@@ -61,11 +71,12 @@ public abstract class PortalShapeMixin implements NightworldPortalChecker {
   /**
    * Whether it's a Nightworld Portal.
    */
+  @Unique
   private boolean isNightworldPortal = false;
 
   /**
    * Shadowed {@link PortalShape#isEmpty(BlockState)}.
-   * 
+   *
    * @return whether the state is valid.
    */
   @Shadow
@@ -75,7 +86,7 @@ public abstract class PortalShapeMixin implements NightworldPortalChecker {
 
   /**
    * Shadowed {@link PortalShape#isValid()}.
-   * 
+   *
    * @return whether the portal is valid.
    */
   @Shadow
@@ -83,8 +94,8 @@ public abstract class PortalShapeMixin implements NightworldPortalChecker {
 
   /**
    * Accessor to allow changes to {@link PortalShape#width}.
-   * 
-   * @param width
+   *
+   * @param width portal width.
    */
   @Mutable
   @Accessor("width")
@@ -94,38 +105,37 @@ public abstract class PortalShapeMixin implements NightworldPortalChecker {
   public boolean isNightworldPortal() {
     return isNightworldPortal;
   }
-  
+
   /**
-   * Injects at the end of the constructor.
-   * <p>
+   * Injects at the end of the constructor.<br />
    * Checks if a Nightworld Portal can be created.
-   * 
-   * @param world
-   * @param pos
-   * @param axis
-   * @param ci
+   *
+   * @param level dimension.
+   * @param pos block position.
+   * @param axis portal orientation (X or Z).
+   * @param ci {@link CallbackInfo}.
    */
   @Inject(method = "<init>(Lnet/minecraft/world/level/LevelAccessor;Lnet/minecraft/core/BlockPos;Lnet/minecraft/core/Direction$Axis;)V", at = @At(value = "TAIL"))
-  private void onInit(LevelAccessor world, BlockPos pos, Axis axis, CallbackInfo ci) {
-    if (!world.isClientSide()) {
-      ServerLevel serverWorld = (ServerLevel) world;
-      if (this.isValid() && serverWorld.dimension() == CommonModLoader.NIGHTWORLD) {
+  private void onInit(LevelAccessor level, BlockPos pos, Axis axis, CallbackInfo ci) {
+    if (!level.isClientSide()) {
+      ServerLevel serverLevel = (ServerLevel) level;
+      if (this.isValid() && serverLevel.dimension() == Constants.NIGHTWORLD) {
         // If it's a Nether Portal and we are in the Nightworld, prevent creating the portal.
         this.bottomLeft = null;
         this.setWidth(1);
-        this.height = 1;
-      } else if (!this.isValid() && (serverWorld.dimension() == Level.OVERWORLD || serverWorld.dimension() == CommonModLoader.NIGHTWORLD)) {
+        height = 1;
+      } else if (!isValid() && (serverLevel.dimension() == Level.OVERWORLD || serverLevel.dimension() == Constants.NIGHTWORLD)) {
         // If it's not a Nether Portal and we are either in the Overworld or the Nightworld, check if it's a Nightworld Portal.
-        this.bottomLeft = this.calculateBottomLeftForNightworld(pos);
-        if (this.bottomLeft == null) {
-          this.bottomLeft = pos;
-          this.setWidth(1);
-          this.height = 1;
+        bottomLeft = calculateBottomLeftForNightworld(pos);
+        if (bottomLeft == null) {
+          bottomLeft = pos;
+          setWidth(1);
+          height = 1;
         } else {
-          this.setWidth(this.calculateWidthForNightworld());
-          if (this.width > 0) {
-            this.height = this.calculateHeightForNightworld();
-            this.isNightworldPortal = true;
+          setWidth(calculateWidthForNightworld());
+          if (width > 0) {
+            height = calculateHeightForNightworld();
+            isNightworldPortal = true;
           }
         }
       }
@@ -133,39 +143,42 @@ public abstract class PortalShapeMixin implements NightworldPortalChecker {
   }
 
   /**
-   * Copy-paste of {@link PortalShape#calculateBottomLeft(BlockPos)}, changed only to use Crying Obsidian.
-   * 
-   * @param pos
-   * @return
+   * Copy-paste of {@link PortalShape#calculateBottomLeft(BlockPos)}, changed to use Crying Obsidian.
+   *
+   * @param pos block position.
+   * @return bottom left corner position, {@code null} if it's not a valid Nightworld portal.
    */
+  @Unique
   @Nullable
   private BlockPos calculateBottomLeftForNightworld(BlockPos pos) {
-    for(int i = Math.max(this.level.getMinBuildHeight(), pos.getY() - 21); pos.getY() > i && isEmpty(this.level.getBlockState(pos.below())); pos = pos.below());
-    Direction direction = this.rightDir.getOpposite();
-    int j = this.getDistanceUntilEdgeAboveFrameForNightworld(pos, direction) - 1;
+    for (int i = Math.max(level.getMinBuildHeight(), pos.getY() - 21); pos.getY() > i && isEmpty(level.getBlockState(pos.below())); pos = pos.below()) ;
+    Direction direction = rightDir.getOpposite();
+    int j = getDistanceUntilEdgeAboveFrameForNightworld(pos, direction) - 1;
     return j < 0 ? null : pos.relative(direction, j);
   }
 
   /**
    * Copy-paste of {@link PortalShape#calculateWidth()}, changed only to use Crying Obsidian.
-   * 
+   *
    * @return
    */
+  @Unique
   private int calculateWidthForNightworld() {
-    int i = this.getDistanceUntilEdgeAboveFrameForNightworld(this.bottomLeft, this.rightDir);
+    int i = getDistanceUntilEdgeAboveFrameForNightworld(bottomLeft, rightDir);
     return i >= 2 && i <= 21 ? i : 0;
   }
 
   /**
    * Copy-paste of {@link PortalShape#getDistanceUntilEdgeAboveFrame(BlockPos, Direction)}, changed only to use Crying Obsidian.
-   * 
+   *
    * @param pos
    * @param direction
    * @return
    */
+  @Unique
   private int getDistanceUntilEdgeAboveFrameForNightworld(BlockPos pos, Direction direction) {
     BlockPos.MutableBlockPos blockpos$mutableblockpos = new BlockPos.MutableBlockPos();
-    for(int i = 0; i <= 21; ++i) {
+    for (int i = 0; i <= 21; ++i) {
       blockpos$mutableblockpos.set(pos).move(direction, i);
       BlockState blockstate = this.level.getBlockState(blockpos$mutableblockpos);
       if (!isEmpty(blockstate)) {
@@ -184,7 +197,7 @@ public abstract class PortalShapeMixin implements NightworldPortalChecker {
 
   /**
    * Copy-paste of {@link PortalShape#calculateHeight()}, changed only to use Crying Obsidian.
-   * 
+   *
    * @return
    */
   private int calculateHeightForNightworld() {
@@ -195,13 +208,13 @@ public abstract class PortalShapeMixin implements NightworldPortalChecker {
 
   /**
    * Copy-paste of {@link PortalShape#hasTopFrame(BlockPos.MutableBlockPos, int)}, changed only to use Crying Obsidian.
-   * 
+   *
    * @param pos
    * @param height
    * @return
    */
   private boolean hasTopFrameForNightworld(BlockPos.MutableBlockPos pos, int height) {
-    for(int i = 0; i < this.width; ++i) {
+    for (int i = 0; i < this.width; ++i) {
       BlockPos.MutableBlockPos blockpos$mutableblockpos = pos.set(this.bottomLeft).move(Direction.UP, height).move(this.rightDir, i);
       if (!this.level.getBlockState(blockpos$mutableblockpos).is(Blocks.CRYING_OBSIDIAN)) {
         return false;
@@ -212,12 +225,12 @@ public abstract class PortalShapeMixin implements NightworldPortalChecker {
 
   /**
    * Copy-paste of {@link PortalShape#getDistanceUntilTop(BlockPos.MutableBlockPos)}, changed only to use Crying Obsidian.
-   * 
+   *
    * @param pos
    * @return
    */
   private int getDistanceUntilTopForNightworld(BlockPos.MutableBlockPos pos) {
-    for(int i = 0; i < 21; ++i) {
+    for (int i = 0; i < 21; ++i) {
       pos.set(this.bottomLeft).move(Direction.UP, i).move(this.rightDir, -1);
       if (!this.level.getBlockState(pos).is(Blocks.CRYING_OBSIDIAN)) {
         return i;
@@ -226,7 +239,7 @@ public abstract class PortalShapeMixin implements NightworldPortalChecker {
       if (!this.level.getBlockState(pos).is(Blocks.CRYING_OBSIDIAN)) {
         return i;
       }
-      for(int j = 0; j < this.width; ++j) {
+      for (int j = 0; j < this.width; ++j) {
         pos.set(this.bottomLeft).move(Direction.UP, i).move(this.rightDir, j);
         BlockState blockstate = this.level.getBlockState(pos);
         if (!isEmpty(blockstate)) {
@@ -236,7 +249,7 @@ public abstract class PortalShapeMixin implements NightworldPortalChecker {
           ++this.numPortalBlocks;
         }
       }
-   }
-   return 21;
+    }
+    return 21;
   }
 }

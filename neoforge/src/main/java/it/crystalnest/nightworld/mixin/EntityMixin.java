@@ -1,8 +1,7 @@
 package it.crystalnest.nightworld.mixin;
 
-import it.crystalnest.nightworld.CommonModLoader;
+import it.crystalnest.nightworld.Constants;
 import it.crystalnest.nightworld.api.EntityPortal;
-import it.crystalnest.nightworld.api.MinecraftEntity;
 import it.crystalnest.nightworld.api.NightworldPortalChecker;
 import it.crystalnest.nightworld.api.Teleportable;
 import net.minecraft.BlockUtil.FoundRectangle;
@@ -26,12 +25,17 @@ import java.util.Optional;
  * Injects into {@link Entity} to alter dimension travel.
  */
 @Mixin(Entity.class)
-public abstract class EntityMixin implements Teleportable, EntityPortal, MinecraftEntity {
+public abstract class EntityMixin implements Teleportable, EntityPortal {
+  @Shadow
+  public abstract Level level();
+
+  @Shadow
+  protected abstract  Vec3 getRelativePortalPosition(Axis axis, FoundRectangle rectangle);
   /**
    * Shadowed {@link Entity#portalEntrancePos}.
    */
   @Shadow
-  public BlockPos portalEntrancePos;
+  protected BlockPos portalEntrancePos;
 
   /**
    * Shadowed {@link Entity#getExitPortal(ServerLevel, BlockPos, boolean, WorldBorder)}.
@@ -75,11 +79,11 @@ public abstract class EntityMixin implements Teleportable, EntityPortal, Minecra
     ServerLevel destination = caller.getLevel(worldKey);
     if (
       destination != null &&
-      (origin.dimension() == Level.OVERWORLD || origin.dimension() == CommonModLoader.NIGHTWORLD) &&
+      (origin.dimension() == Level.OVERWORLD || origin.dimension() == Constants.NIGHTWORLD) &&
       destination.dimension() == Level.NETHER &&
       NightworldPortalChecker.isNightworldPortal(origin, portalEntrancePos())
     ) {
-      destination = caller.getLevel(origin.dimension() == Level.OVERWORLD ? CommonModLoader.NIGHTWORLD : Level.OVERWORLD);
+      destination = caller.getLevel(origin.dimension() == Level.OVERWORLD ? Constants.NIGHTWORLD : Level.OVERWORLD);
     }
     return destination;
   }

@@ -1,11 +1,11 @@
 package it.crystalnest.nightworld.mixin;
 
+import it.crystalnest.nightworld.Constants;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Redirect;
 
-import it.crystalnest.nightworld.CommonModLoader;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.world.level.Level;
@@ -75,6 +75,6 @@ public abstract class BaseFireBlockMixin {
    * @return whether the given {@link Level} is a suitable dimension to light up a Nightworld portal.
    */
   private static boolean isNightworldSuitableDimension(Level world) {
-    return BaseFireBlockMixin.inPortalDimension(world) || world.dimension() == CommonModLoader.NIGHTWORLD;
+    return BaseFireBlockMixin.inPortalDimension(world) || world.dimension() == Constants.NIGHTWORLD;
   }
 }

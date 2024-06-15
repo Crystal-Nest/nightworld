@@ -1,12 +1,6 @@
 package it.crystalnest.nightworld.mixin;
 
-import org.spongepowered.asm.mixin.Mixin;
-import org.spongepowered.asm.mixin.injection.At;
-import org.spongepowered.asm.mixin.injection.At.Shift;
-import org.spongepowered.asm.mixin.injection.Inject;
-import org.spongepowered.asm.mixin.injection.Redirect;
-import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
-
+import com.llamalad7.mixinextras.injector.ModifyExpressionValue;
 import it.crystalnest.nightworld.api.NightworldPortalChecker;
 import net.minecraft.core.BlockPos;
 import net.minecraft.server.level.ServerLevel;
@@ -19,62 +13,68 @@ import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.NetherPortalBlock;
 import net.minecraft.world.level.block.state.BlockState;
+import org.spongepowered.asm.mixin.Mixin;
+import org.spongepowered.asm.mixin.Unique;
+import org.spongepowered.asm.mixin.injection.At;
+import org.spongepowered.asm.mixin.injection.At.Shift;
+import org.spongepowered.asm.mixin.injection.Inject;
+import org.spongepowered.asm.mixin.injection.Redirect;
+import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 /**
- * Injects into {@link NetherPortalBlock} to to alter Nightworld Portals mob spawn.
+ * Injects into {@link NetherPortalBlock} to alter Nightworld Portals mob spawn.
  */
 @Mixin(NetherPortalBlock.class)
 public abstract class NetherPortalBlockMixin {
   /**
-   * Injects into the method {@link NetherPortalBlock#randomTick(BlockState, ServerLevel, BlockPos, RandomSource)} before the call to {@link BlockState#isValidSpawn(BlockGetter, BlockPos, EntityType)}.
-   * <p>
+   * Injects into the method {@link NetherPortalBlock#randomTick(BlockState, ServerLevel, BlockPos, RandomSource)} before the call to {@link BlockState#isValidSpawn(BlockGetter, BlockPos, EntityType)}.<br />
    * Allows Zombies and Skeletons spawn when it's a Nightworld Portal.
-   * 
-   * @param state
-   * @param world
-   * @param pos
-   * @param random
-   * @param ci
+   *
+   * @param state block state.
+   * @param level dimension.
+   * @param pos position.
+   * @param random random source.
+   * @param ci {@link CallbackInfo}.
    */
   @Inject(method = "randomTick", at = @At(value = "INVOKE", target = "Lnet/minecraft/world/level/block/state/BlockState;isValidSpawn(Lnet/minecraft/world/level/BlockGetter;Lnet/minecraft/core/BlockPos;Lnet/minecraft/world/entity/EntityType;)Z", shift = Shift.BEFORE))
-  private void onRandomTick(BlockState state, ServerLevel world, BlockPos pos, RandomSource random, CallbackInfo ci) {
-    if (NightworldPortalChecker.isNightworldPortal(world, pos.above())) {
+  private void onRandomTick(BlockState state, ServerLevel level, BlockPos pos, RandomSource random, CallbackInfo ci) {
+    if (NightworldPortalChecker.isNightworldPortal(level, pos.above())) {
       if (random.nextInt(0, 100) < 50) {
-        this.handleSpawnEntity(EntityType.ZOMBIE, state, world, pos);
+        this.handleSpawnEntity(EntityType.ZOMBIE, level, pos);
       } else {
-        this.handleSpawnEntity(EntityType.SKELETON, state, world, pos);
+        this.handleSpawnEntity(EntityType.SKELETON, level, pos);
       }
     }
   }
 
   /**
-   * Redirects the call to {@link BlockState#isValidSpawn(BlockGetter, BlockPos, EntityType)} inside the method {@link NetherPortalBlock#randomTick(BlockState, ServerLevel, BlockPos, RandomSource)}.
-   * <p>
+   * Modifies the condition returned by {@link BlockState#isValidSpawn(BlockGetter, BlockPos, EntityType)} inside the method {@link NetherPortalBlock#randomTick(BlockState, ServerLevel, BlockPos, RandomSource)}.<br />
    * Prevents Zombified Piglins spawn when it's a Nightworld Portal.
-   * 
-   * @param caller
-   * @param world
-   * @param pos
-   * @param entityType
-   * @return
+   *
+   * @param original original condition value.
+   * @param state block state.
+   * @param level dimension.
+   * @param pos position.
+   * @param rand random source.
+   * @return whether spawning is allowed.
    */
-  @Redirect(method = "randomTick", at = @At(value = "INVOKE", target = "Lnet/minecraft/world/level/block/state/BlockState;isValidSpawn(Lnet/minecraft/world/level/BlockGetter;Lnet/minecraft/core/BlockPos;Lnet/minecraft/world/entity/EntityType;)Z"))
-  private boolean redirectAllowsSpawning(BlockState caller, BlockGetter world, BlockPos pos, EntityType<ZombifiedPiglin> entityType) {
-    return !NightworldPortalChecker.isNightworldPortal((Level) world, pos.above()) && caller.isValidSpawn(world, pos, entityType);
+  @ModifyExpressionValue(method = "randomTick", at = @At(value = "INVOKE", target = "Lnet/minecraft/world/level/block/state/BlockState;isValidSpawn(Lnet/minecraft/world/level/BlockGetter;Lnet/minecraft/core/BlockPos;Lnet/minecraft/world/entity/EntityType;)Z"))
+  private boolean modifyIsValidSpawn(boolean original, BlockState state, ServerLevel level, BlockPos pos, RandomSource rand) {
+    return original && !NightworldPortalChecker.isNightworldPortal(level, pos.above());
   }
 
   /**
    * Handles spawning an entity of the given type if allowed.
-   * 
-   * @param <T>
-   * @param entityType
-   * @param state
-   * @param world
-   * @param pos
+   *
+   * @param <T> entity type.
+   * @param entityType entity type.
+   * @param level dimension.
+   * @param pos position.
    */
-  private <T extends EntityType<?>> void handleSpawnEntity(T entityType, BlockState state, ServerLevel world, BlockPos pos) {
+  @Unique
+  private <T extends EntityType<?>> void handleSpawnEntity(T entityType, ServerLevel level, BlockPos pos) {
     Entity entity;
-    if (world.getBlockState(pos).isValidSpawn(world, pos, entityType) && (entity = entityType.spawn(world, pos.above(), MobSpawnType.STRUCTURE)) != null) {
+    if (level.getBlockState(pos).isValidSpawn(level, pos, entityType) && (entity = entityType.spawn(level, pos.above(), MobSpawnType.STRUCTURE)) != null) {
       entity.setPortalCooldown();
     }
   }

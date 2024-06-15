@@ -16,26 +16,28 @@ import net.minecraft.world.phys.Vec3;
 public interface EntityPortal {
   /**
    * Returns the optional exit portal rectangle.
-   * 
-   * @param destination
-   * @param pos
-   * @param destIsNether
-   * @param worldBorder
-   * @return
+   *
+   * @param destination destination level.
+   * @param pos destination position.
+   * @param destIsNether whether the destination is the Nether.
+   * @param worldBorder world border.
+   * @return optional exit portal rectangle.
    */
   Optional<FoundRectangle> exitPortal(ServerLevel destination, BlockPos pos, boolean destIsNether, WorldBorder worldBorder);
+
   /**
    * Returns the relative portal position.
-   * 
-   * @param axis
-   * @param rectangle
-   * @return
+   *
+   * @param axis portal alignment (X or Z).
+   * @param rectangle portal rectangle.
+   * @return relative portal position.
    */
   Vec3 relativePortalPosition(Axis axis, FoundRectangle rectangle);
+
   /**
    * Returns the portal entrance position.
-   * 
-   * @return
+   *
+   * @return portal entrance position.
    */
   BlockPos portalEntrancePos();
 }

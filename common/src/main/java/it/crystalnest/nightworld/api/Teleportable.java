@@ -1,8 +1,7 @@
 package it.crystalnest.nightworld.api;
 
-import org.jetbrains.annotations.Nullable;
-
 import net.minecraft.world.level.portal.PortalInfo;
+import org.jetbrains.annotations.Nullable;
 
 /**
  * Any Entity that can travel between dimensions.
@@ -10,20 +9,24 @@ import net.minecraft.world.level.portal.PortalInfo;
 public interface Teleportable {
   /**
    * Current custom portal info.
-   * 
-   * @return
+   *
+   * @return custom portal info.
    */
-  @Nullable PortalInfo getCustomPortalInfo();
-  /**
-   * Returns a copy of the current custom portal info and sets to {@code null} the reference instance.
-   * 
-   * @return
-   */
-  @Nullable PortalInfo consumeCustomPortalInfo();
+  @Nullable
+  PortalInfo getCustomPortalInfo();
+
   /**
    * Sets the current custom portal info.
-   * 
-   * @param portalInfo
+   *
+   * @param info custom portal info.
    */
-  void setCustomPortalInfo(@Nullable PortalInfo portalInfo);
+  void setCustomPortalInfo(@Nullable PortalInfo info);
+
+  /**
+   * Returns a copy of the current custom portal info and sets to {@code null} the reference instance.
+   *
+   * @return current custom portal info.
+   */
+  @Nullable
+  PortalInfo consumeCustomPortalInfo();
 }

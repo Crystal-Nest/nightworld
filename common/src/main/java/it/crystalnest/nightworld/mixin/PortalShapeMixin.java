@@ -112,7 +112,7 @@ public abstract class PortalShapeMixin implements NightworldPortalChecker {
    *
    * @param level dimension.
    * @param pos block position.
-   * @param axis portal orientation (X or Z).
+   * @param axis portal alignment (X or Z).
    * @param ci {@link CallbackInfo}.
    */
   @Inject(method = "<init>(Lnet/minecraft/world/level/LevelAccessor;Lnet/minecraft/core/BlockPos;Lnet/minecraft/core/Direction$Axis;)V", at = @At(value = "TAIL"))

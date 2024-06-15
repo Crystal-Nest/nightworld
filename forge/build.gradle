@@ -70,6 +70,8 @@ dependencies {
   minecraft "net.minecraftforge:forge:${minecraft_version}-${forge_version}"
   compileOnly project(":common")
   annotationProcessor("org.spongepowered:mixin:0.8.5-SNAPSHOT:processor")
+  compileOnly annotationProcessor("io.github.llamalad7:mixinextras-common:0.3.6")
+  implementation(jarJar("io.github.llamalad7:mixinextras-forge:0.3.6")) { jarJar.ranged(it, "[0.3.6,)") }
   implementation fg.deobf("it.crystalnest:cobweb-forge:${minecraft_version}-${cobweb_version}")
 }
 

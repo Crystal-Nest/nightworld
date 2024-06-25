@@ -22,8 +22,9 @@ It's a perfect choice for both multiplayer servers who need the nighttime but ca
 - Compatible with both Vanilla and modded clients!
 - Can be added to a server/single player world at any time!
 - Enter the Nightworld by creating a portal with crying obsidian.
+- A new dedicated advancement, translated in many languages!
 - Similarly to Nether portals spawning zombified piglins, Nightworld portals can spawn zombies and skeletons!
-- Respawn anchors work just fine!
+- Respawn anchors work just fine.
 
 ## **Compatibilities**
 

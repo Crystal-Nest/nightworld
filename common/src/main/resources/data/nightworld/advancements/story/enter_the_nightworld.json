@@ -1,0 +1,29 @@
+{
+  "parent": "minecraft:nether/obtain_crying_obsidian",
+  "criteria": {
+    "entered_nightworld": {
+      "conditions": {
+        "to": "nightworld:nightworld"
+      },
+      "trigger": "minecraft:changed_dimension"
+    }
+  },
+  "display": {
+    "description": {
+      "translate": "advancements.story.enter_the_nightworld.description"
+    },
+    "icon": {
+      "item": "minecraft:clock"
+    },
+    "title": {
+      "translate": "advancements.story.enter_the_nightworld.title"
+    },
+    "frame": "challenge"
+  },
+  "requirements": [
+    [
+      "entered_nightworld"
+    ]
+  ],
+  "sends_telemetry_event": false
+}

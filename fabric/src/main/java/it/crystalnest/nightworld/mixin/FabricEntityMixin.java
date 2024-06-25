@@ -29,6 +29,8 @@ public abstract class FabricEntityMixin {
 
   /**
    * Shadowed {@link Entity#level}.
+   *
+   * @return level.
    */
   @Shadow
   public abstract Level level();

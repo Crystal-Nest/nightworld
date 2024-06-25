@@ -33,7 +33,7 @@
   },
   "custom": {
     "lithium:options": {
-    "mixin.ai.poi.fast_portals": false
+      "mixin.ai.poi.fast_portals": false
     }
   }
 }

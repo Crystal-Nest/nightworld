@@ -149,6 +149,7 @@ public abstract class PortalShapeMixin implements NightworldPortalChecker {
    */
   @Unique
   @Nullable
+  @SuppressWarnings({"ConstantValue", "StatementWithEmptyBody"})
   private BlockPos calculateBottomLeftForNightworld(BlockPos pos) {
     for (int i = Math.max(level.getMinBuildHeight(), pos.getY() - 21); pos.getY() > i && isEmpty(level.getBlockState(pos.below())); pos = pos.below()) ;
     Direction direction = rightDir.getOpposite();
@@ -159,7 +160,7 @@ public abstract class PortalShapeMixin implements NightworldPortalChecker {
   /**
    * Copy-paste of {@link PortalShape#calculateWidth()}, changed only to use Crying Obsidian.
    *
-   * @return
+   * @return nightworld portal width.
    */
   @Unique
   private int calculateWidthForNightworld() {
@@ -170,24 +171,24 @@ public abstract class PortalShapeMixin implements NightworldPortalChecker {
   /**
    * Copy-paste of {@link PortalShape#getDistanceUntilEdgeAboveFrame(BlockPos, Direction)}, changed only to use Crying Obsidian.
    *
-   * @param pos
-   * @param direction
-   * @return
+   * @param pos block position.
+   * @param direction portal alignment (X or Z).
+   * @return portal width.
    */
   @Unique
   private int getDistanceUntilEdgeAboveFrameForNightworld(BlockPos pos, Direction direction) {
-    BlockPos.MutableBlockPos blockpos$mutableblockpos = new BlockPos.MutableBlockPos();
+    BlockPos.MutableBlockPos mutablePos = new BlockPos.MutableBlockPos();
     for (int i = 0; i <= 21; i++) {
-      blockpos$mutableblockpos.set(pos).move(direction, i);
-      BlockState blockstate = this.level.getBlockState(blockpos$mutableblockpos);
-      if (!isEmpty(blockstate)) {
-        if (blockstate.is(Blocks.CRYING_OBSIDIAN)) {
+      mutablePos.set(pos).move(direction, i);
+      BlockState state = this.level.getBlockState(mutablePos);
+      if (!isEmpty(state)) {
+        if (state.is(Blocks.CRYING_OBSIDIAN)) {
           return i;
         }
         break;
       }
-      BlockState blockstate1 = this.level.getBlockState(blockpos$mutableblockpos.move(Direction.DOWN));
-      if (!blockstate1.is(Blocks.CRYING_OBSIDIAN)) {
+      BlockState stateBelow = this.level.getBlockState(mutablePos.move(Direction.DOWN));
+      if (!stateBelow.is(Blocks.CRYING_OBSIDIAN)) {
         break;
       }
     }
@@ -197,7 +198,7 @@ public abstract class PortalShapeMixin implements NightworldPortalChecker {
   /**
    * Copy-paste of {@link PortalShape#calculateHeight()}, changed only to use Crying Obsidian.
    *
-   * @return
+   * @return nightworld portal height.
    */
   @Unique
   private int calculateHeightForNightworld() {
@@ -209,9 +210,9 @@ public abstract class PortalShapeMixin implements NightworldPortalChecker {
   /**
    * Copy-paste of {@link PortalShape#hasTopFrame(BlockPos.MutableBlockPos, int)}, changed only to use Crying Obsidian.
    *
-   * @param pos
-   * @param height
-   * @return
+   * @param pos block position.
+   * @param height portal height.
+   * @return whether the portal has a top frame edge.
    */
   @Unique
   private boolean hasTopFrameForNightworld(BlockPos.MutableBlockPos pos, int height) {
@@ -227,12 +228,12 @@ public abstract class PortalShapeMixin implements NightworldPortalChecker {
   /**
    * Copy-paste of {@link PortalShape#getDistanceUntilTop(BlockPos.MutableBlockPos)}, changed only to use Crying Obsidian.
    *
-   * @param pos
-   * @return
+   * @param pos block position.
+   * @return portal height.
    */
   @Unique
   private int getDistanceUntilTopForNightworld(BlockPos.MutableBlockPos pos) {
-    for (int i = 0; i < 21; ++i) {
+    for (int i = 0; i < 21; i++) {
       pos.set(this.bottomLeft).move(Direction.UP, i).move(this.rightDir, -1);
       if (!this.level.getBlockState(pos).is(Blocks.CRYING_OBSIDIAN)) {
         return i;

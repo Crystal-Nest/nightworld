@@ -113,7 +113,7 @@ subprojects { subproject ->
     enabled = false
   }
 
-  def changelog_body = "See [Changelog](https://github.com/${github_user}/${mod_id_kebab}/blob/master/CHANGELOG.md#${minecraft_version.replaceAll('\\.', '')}-${mod_version.replaceAll('\\.', '')}---${new Date().format("yyyyMMdd")})."
+  def changelog_body = "See [Changelog](https://github.com/${github_user}/${mod_id_kebab}/blob/master/CHANGELOG.md#v${mod_version.replaceAll('\\.', '')}---${new Date().format("yyyyMMdd")})."
   def version_type = mod_version.replaceFirst("([0-9]+\\.?)+-?", "") ?: "release"
   def loader = "Common"
   switch (subproject.name) {
@@ -193,7 +193,7 @@ subprojects { subproject ->
     setGameVersions(minecraft_version)
     setDisplayName("[${loader} - ${minecraft_version}] ${mod_title} v${mod_version}")
     setJavaVersions([JavaVersion.VERSION_17])
-    setCurseEnvironment("both") // "server", "client" or "both".
+    setCurseEnvironment("server") // "server", "client" or "both".
     github {
       repo = "${github_user}/${mod_id_kebab}"
       tag = "v${project.version}"

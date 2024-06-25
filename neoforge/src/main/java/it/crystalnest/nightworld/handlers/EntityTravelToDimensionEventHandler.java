@@ -27,7 +27,7 @@ public class EntityTravelToDimensionEventHandler {
   /**
    * Handles the {@link EntityTravelToDimensionEvent} by optionally setting the custom portal info for the entity.
    *
-   * @param event
+   * @param event {@link EntityTravelToDimensionEvent}.
    */
   @SubscribeEvent
   public static void handle(EntityTravelToDimensionEvent event) {
@@ -39,11 +39,11 @@ public class EntityTravelToDimensionEventHandler {
   }
 
   /**
-   * Returns the exit portal portal info for traveling from or to the Nightworld.
+   * Returns the exit portal info for traveling from or to the Nightworld.
    *
-   * @param entity
-   * @param destination
-   * @return
+   * @param entity entity traveling to a new dimension.
+   * @param destination default dimension.
+   * @return {@link PortalInfo} for a Nightworld portal.
    */
   private static PortalInfo getNightworldPortalInfo(Entity entity, ServerLevel destination) {
     return ((EntityPortal) entity).exitPortal(destination, entity.blockPosition(), false, destination.getWorldBorder()).map(rect -> {

@@ -26,11 +26,6 @@ import java.util.Optional;
  */
 @Mixin(Entity.class)
 public abstract class EntityMixin implements Teleportable, EntityPortal {
-  @Shadow
-  public abstract Level level();
-
-  @Shadow
-  protected abstract  Vec3 getRelativePortalPosition(Axis axis, FoundRectangle rectangle);
   /**
    * Shadowed {@link Entity#portalEntrancePos}.
    */
@@ -38,13 +33,19 @@ public abstract class EntityMixin implements Teleportable, EntityPortal {
   protected BlockPos portalEntrancePos;
 
   /**
+   * Shadowed {@link Entity#level()}.
+   */
+  @Shadow
+  public abstract Level level();
+
+  /**
+   * Shadowed {@link Entity#getRelativePortalPosition(Axis, FoundRectangle)}.
+   */
+  @Shadow
+  protected abstract Vec3 getRelativePortalPosition(Axis axis, FoundRectangle rectangle);
+
+  /**
    * Shadowed {@link Entity#getExitPortal(ServerLevel, BlockPos, boolean, WorldBorder)}.
-   * 
-   * @param destination
-   * @param pos
-   * @param destIsNether
-   * @param worldBorder
-   * @return
    */
   @Shadow
   protected abstract Optional<FoundRectangle> getExitPortal(ServerLevel destination, BlockPos pos, boolean destIsNether, WorldBorder worldBorder);
@@ -65,25 +66,24 @@ public abstract class EntityMixin implements Teleportable, EntityPortal {
   }
 
   /**
-   * Redirects the call to {@link Entity#level()} inside the method {@link Entity#handleNetherPortal()}.
-   * <p>
+   * Redirects the call to {@link Entity#level()} inside the method {@link Entity#handleNetherPortal()}.<br />
    * Optionally changes the destination dimension.
-   * 
-   * @param caller
-   * @param worldKey
-   * @return
+   *
+   * @param instance {@link MinecraftServer} owning the redirected method.
+   * @param worldKey dimension key.
+   * @return correct destination dimension.
    */
   @Redirect(method = "handleNetherPortal", at = @At(value = "INVOKE", target = "Lnet/minecraft/server/MinecraftServer;getLevel(Lnet/minecraft/resources/ResourceKey;)Lnet/minecraft/server/level/ServerLevel;"))
-  private ServerLevel redirectGetLevel(MinecraftServer caller, ResourceKey<Level> worldKey) {
+  private ServerLevel redirectGetLevel(MinecraftServer instance, ResourceKey<Level> worldKey) {
     Level origin = level();
-    ServerLevel destination = caller.getLevel(worldKey);
+    ServerLevel destination = instance.getLevel(worldKey);
     if (
       destination != null &&
       (origin.dimension() == Level.OVERWORLD || origin.dimension() == Constants.NIGHTWORLD) &&
       destination.dimension() == Level.NETHER &&
       NightworldPortalChecker.isNightworldPortal(origin, portalEntrancePos())
     ) {
-      destination = caller.getLevel(origin.dimension() == Level.OVERWORLD ? Constants.NIGHTWORLD : Level.OVERWORLD);
+      destination = instance.getLevel(origin.dimension() == Level.OVERWORLD ? Constants.NIGHTWORLD : Level.OVERWORLD);
     }
     return destination;
   }

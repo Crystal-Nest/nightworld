@@ -31,8 +31,8 @@ public abstract class EntityAndPlayerMixin implements Teleportable, EntityPortal
   @Nullable
   protected PortalInfo customPortalInfo;
 
-  @Override
   @Nullable
+  @Override
   public PortalInfo getCustomPortalInfo() {
     return customPortalInfo;
   }

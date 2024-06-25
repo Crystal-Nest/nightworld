@@ -28,12 +28,17 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 import java.util.Optional;
 
-
 /**
  * Injects into {@link Entity} to alter dimension travel.
  */
 @Mixin(Entity.class)
 public abstract class EntityMixin {
+  /**
+   * Shadowed {@link Entity#portalEntrancePos}.
+   */
+  @Shadow
+  protected BlockPos portalEntrancePos;
+
   /**
    * Shadowed {@link Entity#level}.
    */
@@ -41,15 +46,8 @@ public abstract class EntityMixin {
   public abstract Level level();
 
   /**
-   * Shadowed {@link Entity#portalEntrancePos}.
-   */
-
-  @Shadow
-  protected BlockPos portalEntrancePos;
-
-  /**
    * Shadowed {@link Entity#blockPosition()}.
-   * 
+   *
    * @return entity block position.
    */
   @Shadow
@@ -57,7 +55,7 @@ public abstract class EntityMixin {
 
   /**
    * Shadowed {@link Entity#getDeltaMovement()}.
-   * 
+   *
    * @return entity velocity.
    */
   @Shadow
@@ -65,7 +63,7 @@ public abstract class EntityMixin {
 
   /**
    * Shadowed {@link Entity#getYRot()}.
-   * 
+   *
    * @return entity yaw.
    */
   @Shadow
@@ -73,7 +71,7 @@ public abstract class EntityMixin {
 
   /**
    * Shadowed {@link Entity#getXRot()}.
-   * 
+   *
    * @return entity pitch.
    */
   @Shadow
@@ -81,7 +79,7 @@ public abstract class EntityMixin {
 
   /**
    * Shadowed {@link Entity#isRemoved()}.
-   * 
+   *
    * @return whether the entity is removed
    */
   @Shadow
@@ -89,46 +87,45 @@ public abstract class EntityMixin {
 
   /**
    * Shadowed {@link Entity#changeDimension(ServerLevel)}.
-   * 
-   * @param destination
-   * @return
+   *
+   * @param destination dimension.
+   * @return entity in the new dimension.
    */
   @Shadow
   public abstract Entity changeDimension(ServerLevel destination);
 
   /**
    * Shadowed {@link Entity#getExitPortal(ServerLevel, BlockPos, boolean, WorldBorder)}.
-   * 
-   * @param destWorld
-   * @param destPos
-   * @param destIsNether
-   * @param worldBorder
-   * @return
+   *
+   * @param destination dimension.
+   * @param destPos position.
+   * @param destIsNether whether the destination is the Nether.
+   * @param worldBorder world border.
+   * @return optional portal frame rectangle.
    */
   @Shadow
-  protected abstract Optional <BlockUtil.FoundRectangle> getExitPortal(ServerLevel destWorld, BlockPos destPos, boolean destIsNether, WorldBorder worldBorder);
+  protected abstract Optional<BlockUtil.FoundRectangle> getExitPortal(ServerLevel destination, BlockPos destPos, boolean destIsNether, WorldBorder worldBorder);
 
   /**
-   * Shadowed {@link Entity#getRelativePortalPosition(Direction.Axis,  BlockUtil.FoundRectangle)}.
-   * 
-   * @param portalAxis
-   * @param portalRect
-   * @return
+   * Shadowed {@link Entity#getRelativePortalPosition(Direction.Axis, BlockUtil.FoundRectangle)}.
+   *
+   * @param portalAxis portal alignment (X or Z).
+   * @param portalRect portal frame.
+   * @return position.
    */
   @Shadow
   protected abstract Vec3 getRelativePortalPosition(Direction.Axis portalAxis, BlockUtil.FoundRectangle portalRect);
 
   /**
-   * Redirects the call to {@link Entity#handleNetherPortal()} inside the method {@link Entity#tick()}.
-   * <p>
+   * Redirects the call to {@link Entity#handleNetherPortal()} inside the method {@link Entity#tick()}.<br />
    * Changes the {@link ChaseClient.TeleportTarget} if the entity is in a Nightworld Portal.
-   * 
-   * @param caller
-   * @param destination
-   * @return
+   *
+   * @param instance {@link Entity} owning the redirected method.
+   * @param destination dimension.
+   * @return entity in the new dimension.
    */
   @Redirect(method = "handleNetherPortal", at = @At(value = "INVOKE", target = "Lnet/minecraft/world/entity/Entity;changeDimension(Lnet/minecraft/server/level/ServerLevel;)Lnet/minecraft/world/entity/Entity;"))
-  private Entity redirectMoveToWorld(Entity caller, ServerLevel destination) {
+  private Entity redirectMoveToWorld(Entity instance, ServerLevel destination) {
     ServerLevel actualDestination = destination;
     if (
       !level().isClientSide &&
@@ -138,21 +135,21 @@ public abstract class EntityMixin {
       NightworldPortalChecker.isNightworldPortal(level(), portalEntrancePos)
     ) {
       actualDestination = ((ServerLevel) level()).getServer().getLevel(level().dimension() == Level.OVERWORLD ? Constants.NIGHTWORLD : Level.OVERWORLD);
-      ((Teleportable) this).fabric_setCustomTeleportTarget(this.getNightworldTeleportTarget(caller, actualDestination));
+      //noinspection UnstableApiUsage
+      ((Teleportable) this).fabric_setCustomTeleportTarget(this.getNightworldTeleportTarget(instance, actualDestination));
     }
     return this.changeDimension(actualDestination);
   }
-  
 
 
   /**
-   * Injects into the method {@link Entity#changeDimension(ServerLevel)} after the call to {Entity#getTeleportTarget(ServerWorld)}.
-   * <p>
+   * Injects into the method {@link Entity#changeDimension(ServerLevel)} after the call to {Entity#getTeleportTarget(ServerWorld)}.<br />
    * Resets the {@link net.fabricmc.fabric.mixin.dimension.EntityMixin#customTeleportTarget customTeleportTarget}.
-   * 
-   * @param destination
-   * @param cir
+   *
+   * @param destination dimension.
+   * @param cir {@link CallbackInfoReturnable}.
    */
+  @SuppressWarnings("UnstableApiUsage")
   @Inject(method = "changeDimension", at = @At(value = "INVOKE", target = "Lnet/minecraft/world/entity/Entity;findDimensionEntryPoint(Lnet/minecraft/server/level/ServerLevel;)Lnet/minecraft/world/level/portal/PortalInfo;", shift = Shift.AFTER))
   private void onMoveToWorld(ServerLevel destination, CallbackInfoReturnable<Entity> cir) {
     ((Teleportable) this).fabric_setCustomTeleportTarget(null);
@@ -160,14 +157,14 @@ public abstract class EntityMixin {
 
   /**
    * Partial copy-paste of {Entity#getTeleportTarget(ServerWorld)}, changed to return the proper {TeleportTarget} for teleporting into the Nightworld.
-   * 
-   * @param caller
-   * @param destination
-   * @return
+   *
+   * @param instance {@link Entity} owning the redirected method.
+   * @param destination dimension.
+   * @return {@link PortalInfo} for a Nightworld portal.
    */
   @Unique
   @Nullable
-  private PortalInfo getNightworldTeleportTarget(Entity caller, ServerLevel destination) {
+  private PortalInfo getNightworldTeleportTarget(Entity instance, ServerLevel destination) {
     return this.getExitPortal(destination, blockPosition(), false, destination.getWorldBorder()).map(rect -> {
       Vec3 vec3;
       Direction.Axis axis;
@@ -180,7 +177,7 @@ public abstract class EntityMixin {
         axis = Direction.Axis.X;
         vec3 = new Vec3(0.5, 0.0, 0.0);
       }
-      return PortalShape.createPortalInfo(destination, rect, axis, vec3, caller, getDeltaMovement(), getYRot(), getXRot());
+      return PortalShape.createPortalInfo(destination, rect, axis, vec3, instance, getDeltaMovement(), getYRot(), getXRot());
     }).orElse(null);
   }
 }

@@ -1,7 +1,6 @@
 package it.crystalnest.nightworld.mixin;
 
 import it.crystalnest.nightworld.Constants;
-import it.crystalnest.nightworld.api.EntityPortal;
 import it.crystalnest.nightworld.api.Teleportable;
 import net.minecraft.BlockUtil;
 import net.minecraft.core.BlockPos;
@@ -23,7 +22,7 @@ import java.util.Optional;
  * Injects into {@link Entity} and {@link ServerPlayer} to alter dimension travel.
  */
 @Mixin({Entity.class, ServerPlayer.class})
-public abstract class EntityAndPlayerMixin implements Teleportable, EntityPortal {
+public abstract class EntityAndPlayerMixin implements Teleportable {
   /**
    * Custom portal info.
    */

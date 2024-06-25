@@ -1,19 +1,10 @@
 package it.crystalnest.nightworld.handlers;
 
 import it.crystalnest.nightworld.Constants;
-import it.crystalnest.nightworld.api.EntityPortal;
+import it.crystalnest.nightworld.api.NightworldPortalChecker;
 import it.crystalnest.nightworld.api.Teleportable;
-import net.minecraft.BlockUtil;
-import net.minecraft.BlockUtil.FoundRectangle;
-import net.minecraft.core.Direction.Axis;
 import net.minecraft.server.MinecraftServer;
-import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.entity.Entity;
-import net.minecraft.world.level.block.state.BlockState;
-import net.minecraft.world.level.block.state.properties.BlockStateProperties;
-import net.minecraft.world.level.portal.PortalInfo;
-import net.minecraft.world.level.portal.PortalShape;
-import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.event.entity.EntityTravelToDimensionEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod.EventBusSubscriber;
@@ -34,31 +25,7 @@ public class EntityTravelToDimensionEventHandler {
     Entity entity = event.getEntity();
     MinecraftServer server = entity.getServer();
     if (server != null && !entity.isRemoved() && (entity.level().dimension() == Constants.NIGHTWORLD || event.getDimension() == Constants.NIGHTWORLD)) {
-      ((Teleportable) entity).setCustomPortalInfo(getNightworldPortalInfo(entity, server.getLevel(event.getDimension())));
+      ((Teleportable) entity).setCustomPortalInfo(NightworldPortalChecker.getNightworldPortalInfo(entity, server.getLevel(event.getDimension())));
     }
-  }
-
-  /**
-   * Returns the exit portal info for traveling from or to the Nightworld.
-   *
-   * @param entity entity traveling to a new dimension.
-   * @param destination default dimension.
-   * @return {@link PortalInfo} for a Nightworld portal.
-   */
-  private static PortalInfo getNightworldPortalInfo(Entity entity, ServerLevel destination) {
-    return ((EntityPortal) entity).exitPortal(destination, entity.blockPosition(), false, destination.getWorldBorder()).map(rect -> {
-      Vec3 vec3d;
-      Axis axis;
-      BlockState blockState = entity.level().getBlockState(((EntityPortal) entity).portalEntrancePos());
-      if (blockState.hasProperty(BlockStateProperties.HORIZONTAL_AXIS)) {
-        axis = blockState.getValue(BlockStateProperties.HORIZONTAL_AXIS);
-        FoundRectangle rectangle = BlockUtil.getLargestRectangleAround(((EntityPortal) entity).portalEntrancePos(), axis, PortalShape.MAX_WIDTH, Axis.Y, PortalShape.MAX_HEIGHT, pos -> entity.level().getBlockState(pos) == blockState);
-        vec3d = ((EntityPortal) entity).relativePortalPosition(axis, rectangle);
-      } else {
-        axis = Axis.X;
-        vec3d = new Vec3(0.5, 0.0, 0.0);
-      }
-      return PortalShape.createPortalInfo(destination, rect, axis, vec3d, entity, entity.getDeltaMovement(), entity.getYRot(), entity.getXRot());
-    }).orElse(null);
   }
 }

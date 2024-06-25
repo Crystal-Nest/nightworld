@@ -17,16 +17,16 @@ issueTrackerURL="https://github.com/${github_user}/${mod_id_kebab}/issues" #opti
   mandatory = true #mandatory
   versionRange = "${forge_loader_version_range}" #mandatory
   ordering = "NONE" # The order that this dependency should load in relation to your mod, required to be either 'BEFORE' or 'AFTER' if the dependency is not mandatory
-  side = "BOTH" # Side this dependency is applied on - 'BOTH', 'CLIENT' or 'SERVER'
+  side = "SERVER" # Side this dependency is applied on - 'BOTH', 'CLIENT' or 'SERVER'
 [[dependencies.${mod_id}]]
   modId = "minecraft"
   mandatory = true
   versionRange = "${minecraft_version_range}"
   ordering = "NONE"
-  side = "BOTH"
+  side = "SERVER"
 [[dependencies.${mod_id}]]
   modId = "cobweb"
   mandatory = true
   versionRange = "[${cobweb_version},)"
   ordering = "NONE"
-  side = "BOTH"
+  side = "SERVER"

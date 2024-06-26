@@ -29,11 +29,9 @@ public abstract class FabricEntityMixin {
 
   /**
    * Shadowed {@link Entity#level}.
-   *
-   * @return level.
    */
   @Shadow
-  public abstract Level level();
+  public Level level;
 
   /**
    * Shadowed {@link Entity#isRemoved()}.
@@ -63,8 +61,8 @@ public abstract class FabricEntityMixin {
   @Redirect(method = "handleNetherPortal", at = @At(value = "INVOKE", target = "Lnet/minecraft/world/entity/Entity;changeDimension(Lnet/minecraft/server/level/ServerLevel;)Lnet/minecraft/world/entity/Entity;"))
   private Entity redirectChangeDimension(Entity instance, ServerLevel destination) {
     ServerLevel actualDestination = destination;
-    if (!level().isClientSide && !this.isRemoved() && NightworldPortalChecker.shouldTeleportToNightworld(level(), destination, portalEntrancePos)) {
-      actualDestination = ((ServerLevel) level()).getServer().getLevel(level().dimension() == Level.OVERWORLD ? Constants.NIGHTWORLD : Level.OVERWORLD);
+    if (!level.isClientSide && !this.isRemoved() && NightworldPortalChecker.shouldTeleportToNightworld(level, destination, portalEntrancePos)) {
+      actualDestination = ((ServerLevel) level).getServer().getLevel(level.dimension() == Level.OVERWORLD ? Constants.NIGHTWORLD : Level.OVERWORLD);
       //noinspection UnstableApiUsage
       ((Teleportable) this).fabric_setCustomTeleportTarget(NightworldPortalChecker.getNightworldPortalInfo(instance, actualDestination));
     }

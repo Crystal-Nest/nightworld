@@ -78,6 +78,6 @@ public abstract class EntityAndPlayerMixin implements Teleportable {
    */
   @Inject(method = "getExitPortal", at = @At(value = "HEAD"))
   private void onGetExitPortal(ServerLevel destination, BlockPos pos, boolean destIsNether, WorldBorder worldBorder, CallbackInfoReturnable<Optional<BlockUtil.FoundRectangle>> cir) {
-    Constants.NIGHTWORLD_ORIGIN_THREAD.set(((Entity) (Object) this).level().dimension() == Constants.NIGHTWORLD);
+    Constants.NIGHTWORLD_ORIGIN_THREAD.set(((Entity) (Object) this).level.dimension() == Constants.NIGHTWORLD);
   }
 }

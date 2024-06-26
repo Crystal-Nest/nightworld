@@ -24,7 +24,7 @@ public class EntityTravelToDimensionEventHandler {
   public static void handle(EntityTravelToDimensionEvent event) {
     Entity entity = event.getEntity();
     MinecraftServer server = entity.getServer();
-    if (server != null && !entity.isRemoved() && (entity.level().dimension() == Constants.NIGHTWORLD || event.getDimension() == Constants.NIGHTWORLD)) {
+    if (server != null && !entity.isRemoved() && (entity.level.dimension() == Constants.NIGHTWORLD || event.getDimension() == Constants.NIGHTWORLD)) {
       ((Teleportable) entity).setCustomPortalInfo(NightworldPortalChecker.getNightworldPortalInfo(entity, server.getLevel(event.getDimension())));
     }
   }

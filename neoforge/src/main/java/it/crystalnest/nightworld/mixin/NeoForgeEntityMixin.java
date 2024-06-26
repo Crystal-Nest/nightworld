@@ -20,6 +20,8 @@ import org.spongepowered.asm.mixin.injection.Redirect;
 public abstract class NeoForgeEntityMixin implements EntityPortal {
   /**
    * Shadowed {@link Entity#level()}.
+   *
+   * @return level.
    */
   @Shadow
   public abstract Level level();

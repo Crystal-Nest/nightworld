@@ -27,11 +27,11 @@ It's a perfect choice for both multiplayer servers who need the nighttime but ca
 
 ## **Compatibilities**
 
-|                              Mod                               | Loader |               Compatibility               |
-|:--------------------------------------------------------------:|:------:|:-----------------------------------------:|
-|   [Crying Portals](https://modrinth.com/mod/crying-portals)    |  All   |               Incompatible                |
+| Mod                                                            | Loader |               Compatibility               |
+|:---------------------------------------------------------------|:------:|:-----------------------------------------:|
+| [Crying Portals](https://modrinth.com/mod/crying-portals)      |  All   |               Incompatible                |
 | [Immersive Portals](https://modrinth.com/mod/immersiveportals) | Fabric |               Incompatible                |
-|    [Very Many Players](https://modrinth.com/mod/vmp-fabric)    | Fabric | Compatible with `use_async_portals=false` |
+| [Very Many Players](https://modrinth.com/mod/vmp-fabric)       | Fabric | Compatible with `use_async_portals=false` |
 
 ## **License and right of use**
 

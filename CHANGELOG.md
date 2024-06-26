@@ -9,9 +9,11 @@ and this project adheres to [Crystal Nest Semantic Versioning](https://crystalne
 
 - Nothing new.
 
-## [2.0.0] - 2024/06/25
+## [2.0.0] - 2024/06/26
 
 - Updated to a multiloader environment.
+- Fixed [#2](https://github.com/Crystal-Nest/nightworld/issues/2).
+- Fixed [#4](https://github.com/Crystal-Nest/nightworld/issues/4).
 
 <details>
   <summary>Legacy</summary>

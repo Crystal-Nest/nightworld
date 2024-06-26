@@ -14,7 +14,9 @@ import net.minecraftforge.fml.common.Mod.EventBusSubscriber.Bus;
  * {@link EntityTravelToDimensionEvent} handler.
  */
 @EventBusSubscriber(bus = Bus.FORGE)
-public class EntityTravelToDimensionEventHandler {
+public final class EntityTravelToDimensionEventHandler {
+  private EntityTravelToDimensionEventHandler() {}
+
   /**
    * Handles the {@link EntityTravelToDimensionEvent} by optionally setting the custom portal info for the entity.
    *

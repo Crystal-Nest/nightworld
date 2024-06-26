@@ -61,7 +61,7 @@ public interface NightworldPortalChecker {
         axis = Axis.X;
         vec3d = new Vec3(0.5, 0.0, 0.0);
       }
-      return PortalShape.createPortalInfo(destination, rect, axis, vec3d, entity, entity.getDeltaMovement(), entity.getYRot(), entity.getXRot());
+      return PortalShape.createPortalInfo(destination, rect, axis, vec3d, entity.getDimensions(entity.getPose()), entity.getDeltaMovement(), entity.getYRot(), entity.getXRot());
     }).orElse(null);
   }
 

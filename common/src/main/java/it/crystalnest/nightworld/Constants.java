@@ -1,6 +1,6 @@
 package it.crystalnest.nightworld;
 
-import net.minecraft.core.registries.Registries;
+import net.minecraft.core.Registry;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.level.Level;
@@ -27,12 +27,12 @@ public final class Constants {
   /**
    * {@link ResourceKey} for the dimension.
    */
-  public static final ResourceKey<Level> NIGHTWORLD = ResourceKey.create(Registries.DIMENSION, new ResourceLocation(MOD_ID, "nightworld"));
+  public static final ResourceKey<Level> NIGHTWORLD = ResourceKey.create(Registry.DIMENSION_REGISTRY, new ResourceLocation(MOD_ID, "nightworld"));
 
   /**
    * {@link ResourceKey} for the dimension type.
    */
-  public static final ResourceKey<DimensionType> NIGHTWORLD_TYPE = ResourceKey.create(Registries.DIMENSION_TYPE, NIGHTWORLD.location());
+  public static final ResourceKey<DimensionType> NIGHTWORLD_TYPE = ResourceKey.create(Registry.DIMENSION_TYPE_REGISTRY, NIGHTWORLD.location());
 
   /**
    * Mod logger.

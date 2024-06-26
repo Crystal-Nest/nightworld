@@ -71,7 +71,7 @@ public abstract class NetherPortalBlockMixin {
   @Unique
   private <T extends EntityType<?>> void handleSpawnEntity(T entityType, ServerLevel level, BlockPos pos) {
     Entity entity;
-    if (level.getBlockState(pos).isValidSpawn(level, pos, entityType) && (entity = entityType.spawn(level, pos.above(), MobSpawnType.STRUCTURE)) != null) {
+    if (level.getBlockState(pos).isValidSpawn(level, pos, entityType) && (entity = entityType.spawn(level, null, null, null, pos.above(), MobSpawnType.STRUCTURE, false, false)) != null) {
       entity.setPortalCooldown();
     }
   }

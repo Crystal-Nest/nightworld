@@ -31,6 +31,10 @@
     "java": ">=17",
     "cobweb": "^${cobweb_version}"
   },
+  "breaks": {
+    "cryingportals": "*",
+    "immersive_portals": "*"
+  },
   "custom": {
     "lithium:options": {
       "mixin.ai.poi.fast_portals": false

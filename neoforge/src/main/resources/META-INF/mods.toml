@@ -21,19 +21,31 @@ issueTrackerURL="https://github.com/${github_user}/${mod_id_kebab}/issues" #opti
   type = "required" #mandatory (Can be one of "required", "optional", "incompatible" or "discouraged")
   versionRange = "${neoforge_loader_version_range}" #mandatory
   ordering = "NONE" # The order that this dependency should load in relation to your mod, required to be either 'BEFORE' or 'AFTER' if the dependency is not mandatory
-  side = "SERVER" # Side this dependency is applied on - 'BOTH', 'CLIENT' or 'SERVER'
+  side = "BOTH" # Side this dependency is applied on - 'BOTH', 'CLIENT' or 'SERVER'
 [[dependencies.${mod_id}]]
   modId = "minecraft"
   type = "required"
   versionRange = "${minecraft_version_range}"
   ordering = "NONE"
-  side = "SERVER"
+  side = "BOTH"
 [[dependencies.${mod_id}]]
   modId = "cobweb"
   type = "required"
   versionRange = "[${cobweb_version},)"
   ordering = "NONE"
-  side = "SERVER"
+  side = "BOTH"
+[[dependencies.${mod_id}]]
+  modId = "cryingportals"
+  type = "incompatible"
+  versionRange = ""
+  ordering = "NONE"
+  side = "BOTH"
+[[dependencies.${mod_id}]]
+  modId = "immersive_portals"
+  type = "incompatible"
+  versionRange = ""
+  ordering = "NONE"
+  side = "BOTH"
 
 # Features are specific properties of the game environment, that you may want to declare you require. This example declares
 # that your mod requires GL version 3.2 or higher. Other features will be added. They are side aware so declaring this won't

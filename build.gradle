@@ -206,25 +206,33 @@ subprojects { subproject ->
     }
     modrinthDepends {
       required "cobweb"
+      incompatible "crying-portals"
       switch (loader) {
         case "Fabric":
           required "fabric-api"
+          incompatible "immersiveportals"
           break
         case "Forge":
+          incompatible "immersive-portals-neoforge"
           break
         case "NeoForge":
+          incompatible "immersive-portals-neoforge"
           break
       }
     }
     curseDepends {
       required "cobweb"
+      incompatible "crying-portals"
       switch (loader) {
         case "Fabric":
           required "fabric-api"
+          incompatible "immersive-portals-mod"
           break
         case "Forge":
+          incompatible "immersive-portals-for-forge"
           break
         case "NeoForge":
+          incompatible "immersive-portals-for-forge"
           break
       }
     }

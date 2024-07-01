@@ -30,7 +30,7 @@ It's a perfect choice for both multiplayer servers who need the nighttime but ca
 | Mod                                                            | Loader |               Compatibility               |
 |:---------------------------------------------------------------|:------:|:-----------------------------------------:|
 | [Crying Portals](https://modrinth.com/mod/crying-portals)      |  All   |               Incompatible                |
-| [Immersive Portals](https://modrinth.com/mod/immersiveportals) | Fabric |               Incompatible                |
+| [Immersive Portals](https://modrinth.com/mod/immersiveportals) |  All   |               Incompatible                |
 | [Very Many Players](https://modrinth.com/mod/vmp-fabric)       | Fabric | Compatible with `use_async_portals=false` |
 
 ## **License and right of use**

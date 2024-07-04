@@ -9,6 +9,11 @@ and this project adheres to [Crystal Nest Semantic Versioning](https://crystalne
 
 - Nothing new.
 
+## [2.0.1] - 2024/07/04
+
+- Fix mod loader declared incompatibilities.
+- Fix Nightworld mob spawn.
+
 ## [2.0.0] - 2024/06/26
 
 - Updated to a multiloader environment.
@@ -50,6 +55,7 @@ and this project adheres to [Crystal Nest Semantic Versioning](https://crystalne
 
 [Unreleased]: https://github.com/crystal-nest/nightworld
 
+[2.0.1]: https://github.com/crystal-nest/nightworld/releases?q=2.0.1
 [2.0.0]: https://github.com/crystal-nest/nightworld/releases?q=2.0.0
 
 [1.20.4-1.0.0.0]: https://github.com/crystal-nest/nightworld/releases/tag/v1.20.4-1.0.0.0

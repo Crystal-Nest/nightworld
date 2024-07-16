@@ -20,14 +20,14 @@ public final class Constants {
   public static final ThreadLocal<Boolean> NIGHTWORLD_ORIGIN_THREAD = ThreadLocal.withInitial(() -> false);
 
   /**
-   * Mod id.
+   * Mod ID.
    */
   public static final String MOD_ID = "nightworld";
 
   /**
    * {@link ResourceKey} for the dimension.
    */
-  public static final ResourceKey<Level> NIGHTWORLD = ResourceKey.create(Registries.DIMENSION, new ResourceLocation(MOD_ID, "nightworld"));
+  public static final ResourceKey<Level> NIGHTWORLD = ResourceKey.create(Registries.DIMENSION, ResourceLocation.fromNamespaceAndPath(MOD_ID, "nightworld"));
 
   /**
    * {@link ResourceKey} for the dimension type.

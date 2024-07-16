@@ -5,7 +5,6 @@ import it.crystalnest.nightworld.api.NightworldPortalChecker;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction.Axis;
 import net.minecraft.server.level.ServerLevel;
-import net.minecraft.world.entity.ai.village.poi.PoiRecord;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockState;
@@ -42,7 +41,7 @@ public abstract class PortalForcerMixin {
    */
   @Unique
   private BlockState getCorrectBlockState(ServerLevel world, BlockState state) {
-    return (world.dimension() == Constants.NIGHTWORLD || Constants.NIGHTWORLD_ORIGIN_THREAD.get()) && state.is(Blocks.OBSIDIAN) ? Blocks.CRYING_OBSIDIAN.defaultBlockState() : state;
+    return world.dimension() == Constants.NIGHTWORLD && state.is(Blocks.OBSIDIAN) ? Blocks.CRYING_OBSIDIAN.defaultBlockState() : state;
   }
 
   /**
@@ -75,15 +74,15 @@ public abstract class PortalForcerMixin {
   }
 
   /**
-   * Redirects the call to {@link Stream#filter(Predicate)} inside the method {@link PortalForcer#findPortalAround(BlockPos, boolean, WorldBorder)}.<br />
+   * Redirects the call to {@link Stream#filter(Predicate)} inside the method {@link PortalForcer#findClosestPortalPosition(BlockPos, boolean, WorldBorder)}.<br />
    * Adds a new condition to the predicate to prevent teleporting from Nether Portals to Nightworld Portals and vice versa.
    * 
-   * @param instance stream of {@link PoiRecord}s owning the redirected method.
+   * @param instance stream of {@link BlockPos}s owning the redirected method.
    * @param predicate whether the portal is within bounds.
-   * @return filtered stream of {@link PoiRecord}s that represent matching portals.
+   * @return filtered stream of {@link BlockPos}s that represent matching portals.
    */
-  @Redirect(method = "findPortalAround", at = @At(value = "INVOKE", target = "Ljava/util/stream/Stream;filter(Ljava/util/function/Predicate;)Ljava/util/stream/Stream;", ordinal = 1))
-  private Stream<PoiRecord> redirectFilter(Stream<PoiRecord> instance, Predicate<? super PoiRecord> predicate) {
-    return instance.filter(poi -> predicate.test(poi) && (level.dimension() != Level.OVERWORLD || Constants.NIGHTWORLD_ORIGIN_THREAD.get() == NightworldPortalChecker.isNightworldPortal(level, poi.getPos())));
+  @Redirect(method = "findClosestPortalPosition", at = @At(value = "INVOKE", target = "Ljava/util/stream/Stream;filter(Ljava/util/function/Predicate;)Ljava/util/stream/Stream;", ordinal = 1))
+  private Stream<BlockPos> redirectFilter(Stream<BlockPos> instance, Predicate<? super BlockPos> predicate) {
+    return instance.filter(pos -> predicate.test(pos) && (level.dimension() != Level.OVERWORLD || (Constants.NIGHTWORLD_ORIGIN_THREAD.get() == NightworldPortalChecker.isNightworldPortal(level, pos))));
   }
 }

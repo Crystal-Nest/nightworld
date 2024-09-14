@@ -1,7 +1,7 @@
 package it.crystalnest.nightworld.mixin;
 
-import com.llamalad7.mixinextras.injector.ModifyExpressionValue;
-import it.crystalnest.nightworld.api.NightworldPortalChecker;
+import it.crystalnest.nightworld.Constants;
+import it.crystalnest.server_sided_portals.api.CustomPortalChecker;
 import net.minecraft.core.BlockPos;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.util.RandomSource;
@@ -35,29 +35,13 @@ public abstract class NetherPortalBlockMixin {
    */
   @Inject(method = "randomTick", at = @At(value = "INVOKE", target = "Lnet/minecraft/world/level/block/state/BlockState;isValidSpawn(Lnet/minecraft/world/level/BlockGetter;Lnet/minecraft/core/BlockPos;Lnet/minecraft/world/entity/EntityType;)Z", shift = Shift.BEFORE))
   private void onRandomTick(BlockState state, ServerLevel level, BlockPos pos, RandomSource random, CallbackInfo ci) {
-    if (NightworldPortalChecker.isNightworldPortal(level, pos.above())) {
+    if (CustomPortalChecker.isPortalForDimension(level, pos.above(), Constants.NIGHTWORLD)) {
       if (random.nextInt(0, 100) < 50) {
         this.handleSpawnEntity(EntityType.ZOMBIE, level, pos);
       } else {
         this.handleSpawnEntity(EntityType.SKELETON, level, pos);
       }
     }
-  }
-
-  /**
-   * Modifies the condition returned by {@link BlockState#isValidSpawn(BlockGetter, BlockPos, EntityType)} inside the method {@link NetherPortalBlock#randomTick(BlockState, ServerLevel, BlockPos, RandomSource)}.<br />
-   * Prevents Zombified Piglins spawn when it's a Nightworld Portal.
-   *
-   * @param original original condition value.
-   * @param state block state.
-   * @param level dimension.
-   * @param pos position.
-   * @param rand random source.
-   * @return whether spawning is allowed.
-   */
-  @ModifyExpressionValue(method = "randomTick", at = @At(value = "INVOKE", target = "Lnet/minecraft/world/level/block/state/BlockState;isValidSpawn(Lnet/minecraft/world/level/BlockGetter;Lnet/minecraft/core/BlockPos;Lnet/minecraft/world/entity/EntityType;)Z"))
-  private boolean modifyIsValidSpawn(boolean original, BlockState state, ServerLevel level, BlockPos pos, RandomSource rand) {
-    return original && !NightworldPortalChecker.isNightworldPortal(level, pos.above());
   }
 
   /**

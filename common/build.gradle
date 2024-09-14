@@ -14,6 +14,7 @@ dependencies {
   compileOnly group: "org.spongepowered", name: "mixin", version: "0.8.5"
   compileOnly group: "io.github.llamalad7", name: "mixinextras-common", version: "0.3.6"
   implementation "it.crystalnest:cobweb-common:${minecraft_version}-${cobweb_version}"
+  implementation "it.crystalnest:server-sided-portals-common:${minecraft_version}-${server_sided_portals_version}"
 }
 
 // Disable publishing tasks where common is not published

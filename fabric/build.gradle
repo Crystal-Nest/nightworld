@@ -8,6 +8,7 @@ dependencies {
   modImplementation "net.fabricmc.fabric-api:fabric-api:${fabric_version}"
   compileOnly project(":common")
   modImplementation "it.crystalnest:cobweb-fabric:${minecraft_version}-${cobweb_version}"
+  modImplementation "it.crystalnest:server-sided-portals-fabric:${minecraft_version}-${server_sided_portals_version}"
 }
 
 loom {

@@ -24,14 +24,23 @@ It's a perfect choice for both multiplayer servers who need the nighttime but ca
 - Enter the Nightworld by creating a portal with crying obsidian.
 - Similarly to Nether portals spawning zombified piglins, Nightworld portals can spawn zombies and skeletons!
 - Respawn anchors work just fine!
+- The frame block can be changed with a simple datapack!
+
+## **Dependencies**
+
+| Mod                                                                   | Loader | Requirement |
+|:----------------------------------------------------------------------|:------:|:-----------:|
+| [Cobweb](https://modrinth.com/mod/cobweb)                             |  All   |  Required   |
+| [Server Sided Portals](https://modrinth.com/mod/server-sided-portals) |  All   |  Required   |
 
 ## **Compatibilities**
 
-| Mod                                                            | Loader |               Compatibility               |
-|:---------------------------------------------------------------|:------:|:-----------------------------------------:|
-| [Crying Portals](https://modrinth.com/mod/crying-portals)      |  All   |               Incompatible                |
-| [Immersive Portals](https://modrinth.com/mod/immersiveportals) |  All   |               Incompatible                |
-| [Very Many Players](https://modrinth.com/mod/vmp-fabric)       | Fabric | Compatible with `use_async_portals=false` |
+| Mod                                                            | Loader |                                                         Compatibility                                                          |
+|:---------------------------------------------------------------|:------:|:------------------------------------------------------------------------------------------------------------------------------:|
+| [Crying Portals](https://modrinth.com/mod/crying-portals)      |  All   |                                                          Incompatible                                                          |
+| [Immersive Portals](https://modrinth.com/mod/immersiveportals) |  All   |                                                          Incompatible                                                          |
+| [Very Many Players](https://modrinth.com/mod/vmp-fabric)       | Fabric |                                           Compatible with `use_async_portals=false`                                            |
+| [Canary](https://modrinth.com/mod/canary)                      | Forge  | Compatible with [fast portals](https://github.com/AbdElAziz333/Canary/wiki/Configuration-File#mixinaipoifast_portals) disabled |
 
 ## **License and right of use**
 

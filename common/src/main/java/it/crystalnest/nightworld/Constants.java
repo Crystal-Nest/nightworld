@@ -4,7 +4,6 @@ import net.minecraft.core.registries.Registries;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.level.Level;
-import net.minecraft.world.level.dimension.DimensionType;
 import org.jetbrains.annotations.ApiStatus;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -15,24 +14,14 @@ import org.slf4j.LoggerFactory;
 @ApiStatus.Internal
 public final class Constants {
   /**
-   * {@link ThreadLocal} to keep track of a player's origin dimension when teleporting through a Nether/Nightworld portal.
-   */
-  public static final ThreadLocal<Boolean> NIGHTWORLD_ORIGIN_THREAD = ThreadLocal.withInitial(() -> false);
-
-  /**
-   * Mod id.
+   * Mod ID.
    */
   public static final String MOD_ID = "nightworld";
 
   /**
    * {@link ResourceKey} for the dimension.
    */
-  public static final ResourceKey<Level> NIGHTWORLD = ResourceKey.create(Registries.DIMENSION, new ResourceLocation(MOD_ID, "nightworld"));
-
-  /**
-   * {@link ResourceKey} for the dimension type.
-   */
-  public static final ResourceKey<DimensionType> NIGHTWORLD_TYPE = ResourceKey.create(Registries.DIMENSION_TYPE, NIGHTWORLD.location());
+  public static final ResourceKey<Level> NIGHTWORLD = ResourceKey.create(Registries.DIMENSION, new ResourceLocation("server_sided_portals", "nightworld"));
 
   /**
    * Mod logger.

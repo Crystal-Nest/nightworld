@@ -1,5 +1,5 @@
 {
-  "type": "nightworld:nightworld",
+  "type": "server_sided_portals:nightworld",
   "generator": {
     "type": "minecraft:noise",
     "settings": "minecraft:overworld",

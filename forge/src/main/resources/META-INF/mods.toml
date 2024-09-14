@@ -30,3 +30,9 @@ issueTrackerURL="https://github.com/${github_user}/${mod_id_kebab}/issues" #opti
   versionRange = "[${cobweb_version},)"
   ordering = "NONE"
   side = "SERVER"
+[[dependencies.${mod_id}]]
+  modId = "server_sided_portals"
+  mandatory = true
+  versionRange = "[${server_sided_portals_version},)"
+  ordering = "NONE"
+  side = "SERVER"

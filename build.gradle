@@ -99,6 +99,7 @@ subprojects { subproject ->
       "forge_version"                : forge_version,
       "forge_loader_version_range"   : forge_loader_version_range,
       "cobweb_version"               : cobweb_version,
+      "server_sided_portals_version" : server_sided_portals_version
     ]
 
     filesMatching(["pack.mcmeta", "fabric.mod.json", "META-INF/mods.toml", "*.mixins.json"]) {

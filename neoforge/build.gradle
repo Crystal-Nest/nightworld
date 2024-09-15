@@ -32,6 +32,7 @@ dependencies {
   implementation "net.neoforged:neoforge:${neoforge_version}"
   implementation project(":common")
   implementation "it.crystalnest:cobweb-neoforge:${minecraft_version}-${cobweb_version}"
+  implementation "it.crystalnest:server-sided-portals-neoforge:${minecraft_version}-${server_sided_portals_version}"
 }
 
 // NeoGradle compiles the game, but we don't want to add our common code to the game's code

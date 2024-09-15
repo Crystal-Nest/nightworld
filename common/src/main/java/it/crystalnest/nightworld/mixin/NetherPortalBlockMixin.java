@@ -35,7 +35,7 @@ public abstract class NetherPortalBlockMixin {
    */
   @Inject(method = "randomTick", at = @At(value = "INVOKE", target = "Lnet/minecraft/world/level/block/state/BlockState;isValidSpawn(Lnet/minecraft/world/level/BlockGetter;Lnet/minecraft/core/BlockPos;Lnet/minecraft/world/entity/EntityType;)Z", shift = Shift.BEFORE))
   private void onRandomTick(BlockState state, ServerLevel level, BlockPos pos, RandomSource random, CallbackInfo ci) {
-    if (CustomPortalChecker.isPortalForDimension(level, pos.above(), Constants.NIGHTWORLD)) {
+    if (CustomPortalChecker.isPortalForDimension(level, pos.above(), Constants.MOD_ID)) {
       if (random.nextInt(0, 100) < 50) {
         this.handleSpawnEntity(EntityType.ZOMBIE, level, pos);
       } else {

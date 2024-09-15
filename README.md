@@ -18,20 +18,46 @@ It's a perfect choice for both multiplayer servers who need the nighttime but ca
 
 ## **Features**
 
-- Required only server side!
+- Required **only server side**!
 - Compatible with both Vanilla and modded clients!
 - Can be added to a server/single player world at any time!
-- Enter the Nightworld by creating a portal with crying obsidian.
+- Enter the Nightworld by creating a portal with **crying obsidian**.
 - Similarly to Nether portals spawning zombified piglins, Nightworld portals can spawn zombies and skeletons!
 - Respawn anchors work just fine!
+- You can change the portal frame block to anything you like (yes, even multiple blocks!) with a simple datapack!
+
+## **Datapack**
+
+To create a datapack that changes the portal frame block you have to follow a few simple steps:
+
+1. Create a datapack following [this guide](https://minecraft.wiki/w/Tutorials/Creating_a_data_pack).
+2. Under `server_sided_portals` namespace, define a block tag called `nightworld.json` that contains:
+   ```jsonc
+   {
+     "replace": true,
+     "values": [
+       // List of block IDs
+     ]
+   }
+   ```
+
+That's all!
 
 ## **Compatibilities**
 
-| Mod                                                            | Loader |               Compatibility               |
-|:---------------------------------------------------------------|:------:|:-----------------------------------------:|
-| [Crying Portals](https://modrinth.com/mod/crying-portals)      |  All   |               Incompatible                |
-| [Immersive Portals](https://modrinth.com/mod/immersiveportals) |  All   |               Incompatible                |
-| [Very Many Players](https://modrinth.com/mod/vmp-fabric)       | Fabric | Compatible with `use_async_portals=false` |
+| Mod                                                            | Loader |                                                         Compatibility                                                          |
+|:---------------------------------------------------------------|:------:|:------------------------------------------------------------------------------------------------------------------------------:|
+| [Crying Portals](https://modrinth.com/mod/crying-portals)      |  All   |                                                          Incompatible                                                          |
+| [Immersive Portals](https://modrinth.com/mod/immersiveportals) |  All   |                                                          Incompatible                                                          |
+| [Very Many Players](https://modrinth.com/mod/vmp-fabric)       | Fabric |                                           Compatible with `use_async_portals=false`                                            |
+| [Canary](https://modrinth.com/mod/canary)                      | Forge  | Compatible with [fast portals](https://github.com/AbdElAziz333/Canary/wiki/Configuration-File#mixinaipoifast_portals) disabled |
+
+## **Dependencies**
+
+| Mod                                                                   | Loader | Requirement |
+|:----------------------------------------------------------------------|:------:|:-----------:|
+| [Cobweb](https://modrinth.com/mod/cobweb)                             |  All   |  Required   |
+| [Server Sided Portals](https://modrinth.com/mod/server-sided-portals) |  All   |  Required   |
 
 ## **License and right of use**
 

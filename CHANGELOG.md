@@ -14,7 +14,7 @@ and this project adheres to [Crystal Nest Semantic Versioning](https://crystalne
 - 1.21 and above only.
 - Added support for 1.21.1.
 
-## [4.0.0] - 2024/07/18
+## [v4.0.0] - 2024/07/18
 
 - Refractor to remove most of the code in favor of Server Sided Portals dependency.
 - Implemented [#11](https://github.com/Crystal-Nest/nightworld/issues/11), custom portal frame with block tag.
@@ -74,6 +74,7 @@ and this project adheres to [Crystal Nest Semantic Versioning](https://crystalne
 [Unreleased]: https://github.com/crystal-nest/nightworld
 
 [v4.0.1]: https://github.com/crystal-nest/nightworld/releases?q=4.0.1
+[v4.0.0]: https://github.com/crystal-nest/nightworld/releases?q=4.0.0
 [v3.0.0]: https://github.com/crystal-nest/nightworld/releases?q=3.0.0
 [v2.0.1]: https://github.com/crystal-nest/nightworld/releases?q=2.0.1
 [v2.0.0]: https://github.com/crystal-nest/nightworld/releases?q=2.0.0

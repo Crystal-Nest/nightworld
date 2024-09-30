@@ -16,7 +16,7 @@ and this project adheres to [Crystal Nest Semantic Versioning](https://crystalne
 
 ## [v4.0.0] - 2024/07/18
 
-- Refractor to remove most of the code in favor of Server Sided Portals dependency.
+- Refactor to remove most of the code in favor of Server Sided Portals dependency.
 - Implemented [#11](https://github.com/Crystal-Nest/nightworld/issues/11), custom portal frame with block tag.
 
 ## [v3.0.0] - 2024/07/16

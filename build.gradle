@@ -202,6 +202,7 @@ subprojects { subproject ->
     }
     modrinthDepends {
       required "cobweb"
+      required "server-sided-portals"
       incompatible "crying-portals"
       switch (loader) {
         case "Fabric":
@@ -215,6 +216,7 @@ subprojects { subproject ->
     }
     curseDepends {
       required "cobweb"
+      required "server-sided-portals"
       incompatible "crying-portals"
       switch (loader) {
         case "Fabric":

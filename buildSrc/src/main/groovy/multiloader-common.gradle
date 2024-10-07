@@ -215,22 +215,28 @@ publisher {
   modrinthDepends {
     required "cobweb"
     required "server-sided-portals"
+    incompatible "crying-portals"
     switch (loader) {
       case "Fabric":
         required "fabric-api"
+        incompatible "immersiveportals"
         break
       case "NeoForge":
+        incompatible "immersive-portals-neoforge"
         break
     }
   }
   curseDepends {
     required "cobweb"
     required "server-sided-portals"
+    incompatible "crying-portals"
     switch (loader) {
       case "Fabric":
         required "fabric-api"
+        incompatible "immersive-portals-mod"
         break
       case "NeoForge":
+        incompatible "immersive-portals-for-forge"
         break
     }
   }

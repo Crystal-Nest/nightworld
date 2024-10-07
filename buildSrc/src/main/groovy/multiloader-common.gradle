@@ -214,6 +214,7 @@ publisher {
   }
   modrinthDepends {
     required "cobweb"
+    required "server-sided-portals"
     switch (loader) {
       case "Fabric":
         required "fabric-api"
@@ -224,6 +225,7 @@ publisher {
   }
   curseDepends {
     required "cobweb"
+    required "server-sided-portals"
     switch (loader) {
       case "Fabric":
         required "fabric-api"

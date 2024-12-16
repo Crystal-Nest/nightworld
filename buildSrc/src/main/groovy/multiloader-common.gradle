@@ -219,10 +219,8 @@ publisher {
     switch (loader) {
       case "Fabric":
         required "fabric-api"
-        incompatible "immersiveportals"
         break
       case "NeoForge":
-        incompatible "immersive-portals-neoforge"
         break
     }
   }
@@ -233,10 +231,8 @@ publisher {
     switch (loader) {
       case "Fabric":
         required "fabric-api"
-        incompatible "immersive-portals-mod"
         break
       case "NeoForge":
-        incompatible "immersive-portals-for-forge"
         break
     }
   }

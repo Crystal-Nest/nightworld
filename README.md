@@ -49,6 +49,7 @@ That's all!
 |:---------------------------------------------------------------|:------:|:------------------------------------------------------------------------------------------------------------------------------:|
 | [Crying Portals](https://modrinth.com/mod/crying-portals)      |  All   |                                                          Incompatible                                                          |
 | [Immersive Portals](https://modrinth.com/mod/immersiveportals) |  All   |                                                          Incompatible                                                          |
+| [BetterNether](https://modrinth.com/mod/betternether)          | Fabric |                                                          Incompatible                                                          |
 | [Very Many Players](https://modrinth.com/mod/vmp-fabric)       | Fabric |                                           Compatible with `use_async_portals=false`                                            |
 | [Canary](https://modrinth.com/mod/canary)                      | Forge  | Compatible with [fast portals](https://github.com/AbdElAziz333/Canary/wiki/Configuration-File#mixinaipoifast_portals) disabled |
 

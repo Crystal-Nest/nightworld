@@ -42,7 +42,7 @@ public abstract class NetherPortalBlockMixin extends Block {
   @SuppressWarnings({"JavadocReference", "StatementWithEmptyBody"})
   @Inject(method = "randomTick", at = @At(value = "HEAD"), cancellable = true)
   private void onRandomTick(BlockState state, ServerLevel level, BlockPos pos, RandomSource random, CallbackInfo ci) {
-    if (level.getGameRules().getBoolean(GameRules.RULE_DOMOBSPAWNING) && random.nextInt(500) < level.getDifficulty().getId() && CustomPortalChecker.isPortalForDimension(level, pos.above(), Constants.MOD_ID)) {
+    if (level.getGameRules().getBoolean(GameRules.RULE_DOMOBSPAWNING) && random.nextInt(500) < level.getDifficulty().getId() && CustomPortalChecker.isPortalForDimension(level, pos.above(), Constants.NIGHTWORLD)) {
       BlockPos bottom;
       for (bottom = pos; level.getBlockState(bottom).is(this); bottom = bottom.below());
       if (random.nextInt(0, 10) < 5) {

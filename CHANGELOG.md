@@ -9,6 +9,15 @@ and this project adheres to [Crystal Nest Semantic Versioning](https://crystalne
 
 - Port to 1.21.4.
 
+## [v5.0.0] - 2025/01/01
+
+- 1.21 and above only.
+- Updated to support Cobweb v1.3.0 and SSP v2.0.0.
+- This is a BREAKING CHANGE! The Nightworld dimension will be reset.
+- It's now possible to change the item required to light up Nightworld portals.
+- Changed the namespace (from `server_sided_portals` to `nightworld`) under which configuration tags must be located.
+- Added compatibility with `BetterNether` mod (1.21 and 1.21.1 only, as `BetterNether` is not available for later versions at the time of writing).
+
 ## [v4.0.1] - 2024/12/16
 
 - Ported to 1.21.3.
@@ -77,6 +86,7 @@ and this project adheres to [Crystal Nest Semantic Versioning](https://crystalne
 
 [Unreleased]: https://github.com/crystal-nest/nightworld
 
+[v5.0.0]: https://github.com/crystal-nest/nightworld/releases?q=5.0.0
 [v4.0.1]: https://github.com/crystal-nest/nightworld/releases?q=4.0.1
 [v4.0.0]: https://github.com/crystal-nest/nightworld/releases?q=4.0.0
 [v3.0.0]: https://github.com/crystal-nest/nightworld/releases?q=3.0.0

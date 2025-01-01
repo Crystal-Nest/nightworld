@@ -25,13 +25,14 @@ It's a perfect choice for both multiplayer servers who need the nighttime but ca
 - Similarly to Nether portals spawning zombified piglins, Nightworld portals can spawn zombies and skeletons!
 - Respawn anchors work just fine!
 - You can change the portal frame block to anything you like (yes, even multiple blocks!) with a simple datapack!
+- You make so that only specific item(s) are able to light up Nightworld portals with a simple datapack!
 
 ## **Datapack**
 
-To create a datapack that changes the portal frame block you have to follow a few simple steps:
+To create a datapack configuration you have to follow a few simple steps:
 
 1. Create a datapack following [this guide](https://minecraft.wiki/w/Tutorials/Creating_a_data_pack).
-2. Under `server_sided_portals` namespace, define a block tag called `nightworld.json` that contains:
+2. If you want to tweak the portals frame, define under `nightworld` namespace a block tag called `nightworld_portal_frame.json` that contains:
    ```jsonc
    {
      "replace": true,
@@ -40,25 +41,34 @@ To create a datapack that changes the portal frame block you have to follow a fe
      ]
    }
    ```
+3. If you want to tweak the portals igniter, define under `nightworld` namespace an item tag called `nightworld_portal_igniter.json` that contains:
+   ```jsonc
+   {
+     "replace": true,
+     "values": [
+       // List of item IDs
+     ]
+   }
+   ```
 
 That's all!
 
 ## **Compatibilities**
 
-| Mod                                                            | Loader |                                                         Compatibility                                                          |
-|:---------------------------------------------------------------|:------:|:------------------------------------------------------------------------------------------------------------------------------:|
-| [Crying Portals](https://modrinth.com/mod/crying-portals)      |  All   |                                                          Incompatible                                                          |
-| [Immersive Portals](https://modrinth.com/mod/immersiveportals) |  All   |                                                          Incompatible                                                          |
-| [BetterNether](https://modrinth.com/mod/betternether)          | Fabric |                                                          Incompatible                                                          |
-| [Very Many Players](https://modrinth.com/mod/vmp-fabric)       | Fabric |                                           Compatible with `use_async_portals=false`                                            |
-| [Canary](https://modrinth.com/mod/canary)                      | Forge  | Compatible with [fast portals](https://github.com/AbdElAziz333/Canary/wiki/Configuration-File#mixinaipoifast_portals) disabled |
+| Mod                                                                                     | Loader |                                                         Compatibility                                                          |
+|:----------------------------------------------------------------------------------------|:------:|:------------------------------------------------------------------------------------------------------------------------------:|
+| [Crying Portals](https://www.curseforge.com/minecraft/mc-mods/crying-portals)           |  All   |                                                          Incompatible                                                          |
+| [Immersive Portals](https://www.curseforge.com/minecraft/mc-mods/immersive-portals-mod) |  All   |                                                          Incompatible                                                          |
+| [BetterNether](https://www.curseforge.com/minecraft/mc-mods/betternether)               | Fabric |                                                    Compatible since `1.21`                                                     |
+| [Very Many Players](https://www.curseforge.com/minecraft/mc-mods/vmp-fabric)            | Fabric |                                           Compatible with `use_async_portals=false`                                            |
+| [Canary](https://www.curseforge.com/minecraft/mc-mods/canary)                           | Forge  | Compatible with [fast portals](https://github.com/AbdElAziz333/Canary/wiki/Configuration-File#mixinaipoifast_portals) disabled |
 
 ## **Dependencies**
 
-| Mod                                                                   | Loader | Requirement |
-|:----------------------------------------------------------------------|:------:|:-----------:|
-| [Cobweb](https://modrinth.com/mod/cobweb)                             |  All   |  Required   |
-| [Server Sided Portals](https://modrinth.com/mod/server-sided-portals) |  All   |  Required   |
+| Mod                                                                                       | Loader | Requirement |
+|:------------------------------------------------------------------------------------------|:------:|:-----------:|
+| [Cobweb](https://www.curseforge.com/minecraft/mc-mods/cobweb)                             |  All   |  Required   |
+| [Server Sided Portals](https://www.curseforge.com/minecraft/mc-mods/server-sided-portals) |  All   |  Required   |
 
 ## **License and right of use**
 

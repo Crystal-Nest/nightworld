@@ -55,20 +55,20 @@ That's all!
 
 ## **Compatibilities**
 
-| Mod                                                                                     | Loader |                                                         Compatibility                                                          |
-|:----------------------------------------------------------------------------------------|:------:|:------------------------------------------------------------------------------------------------------------------------------:|
-| [Crying Portals](https://www.curseforge.com/minecraft/mc-mods/crying-portals)           |  All   |                                                          Incompatible                                                          |
-| [Immersive Portals](https://www.curseforge.com/minecraft/mc-mods/immersive-portals-mod) |  All   |                                                          Incompatible                                                          |
-| [BetterNether](https://www.curseforge.com/minecraft/mc-mods/betternether)               | Fabric |                                                    Compatible since `1.21`                                                     |
-| [Very Many Players](https://www.curseforge.com/minecraft/mc-mods/vmp-fabric)            | Fabric |                                           Compatible with `use_async_portals=false`                                            |
-| [Canary](https://www.curseforge.com/minecraft/mc-mods/canary)                           | Forge  | Compatible with [fast portals](https://github.com/AbdElAziz333/Canary/wiki/Configuration-File#mixinaipoifast_portals) disabled |
+| Mod                                                            | Loader |                                                         Compatibility                                                          |
+|:---------------------------------------------------------------|:------:|:------------------------------------------------------------------------------------------------------------------------------:|
+| [Crying Portals](https://modrinth.com/mod/crying-portals)      |  All   |                                                          Incompatible                                                          |
+| [Immersive Portals](https://modrinth.com/mod/immersiveportals) |  All   |                                                          Incompatible                                                          |
+| [BetterNether](https://modrinth.com/mod/betternether)          | Fabric |                                                    Compatible since `1.21`                                                     |
+| [Very Many Players](https://modrinth.com/mod/vmp-fabric)       | Fabric |                                           Compatible with `use_async_portals=false`                                            |
+| [Canary](https://modrinth.com/mod/canary)                      | Forge  | Compatible with [fast portals](https://github.com/AbdElAziz333/Canary/wiki/Configuration-File#mixinaipoifast_portals) disabled |
 
 ## **Dependencies**
 
-| Mod                                                                                       | Loader | Requirement |
-|:------------------------------------------------------------------------------------------|:------:|:-----------:|
-| [Cobweb](https://www.curseforge.com/minecraft/mc-mods/cobweb)                             |  All   |  Required   |
-| [Server Sided Portals](https://www.curseforge.com/minecraft/mc-mods/server-sided-portals) |  All   |  Required   |
+| Mod                                                                   | Loader | Requirement |
+|:----------------------------------------------------------------------|:------:|:-----------:|
+| [Cobweb](https://modrinth.com/mod/cobweb)                             |  All   |  Required   |
+| [Server Sided Portals](https://modrinth.com/mod/server-sided-portals) |  All   |  Required   |
 
 ## **License and right of use**
 

@@ -14,7 +14,6 @@ import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.NetherPortalBlock;
 import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.block.state.BlockState;
-import net.minecraft.world.level.material.Material;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
@@ -27,7 +26,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 @Mixin(NetherPortalBlock.class)
 public abstract class NetherPortalBlockMixin extends Block {
   private NetherPortalBlockMixin() {
-    super(BlockBehaviour.Properties.of(Material.PORTAL));
+    super(BlockBehaviour.Properties.of());
   }
 
   /**

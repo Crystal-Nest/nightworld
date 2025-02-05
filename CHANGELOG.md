@@ -9,6 +9,15 @@ and this project adheres to [Crystal Nest Semantic Versioning](https://crystalne
 
 - Nothing new.
 
+## [v5.0.0] - 2025/02/05
+
+- 1.20.4 and below only.
+- Updated to support SSP v2.0.0.
+- This is a BREAKING CHANGE! The Nightworld dimension will be reset.
+- It's now possible to change the item required to light up Nightworld portals.
+- Changed the namespace (from `server_sided_portals` to `nightworld`) under which configuration tags must be located.
+- Added compatibility with `BetterNether` mod.
+
 ## [v5.0.0] - 2025/01/01
 
 - 1.21 and above only.

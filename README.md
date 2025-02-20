@@ -27,7 +27,7 @@ It's a perfect choice for both multiplayer servers who need the nighttime but ca
 - You can change the portal frame block to anything you like (yes, even multiple blocks!) with a simple datapack!
 - You make so that only specific item(s) are able to light up Nightworld portals with a simple datapack!
 
-## **Datapack**
+## **Configuration**
 
 To create a datapack configuration you have to follow a few simple steps:
 

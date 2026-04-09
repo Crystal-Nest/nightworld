@@ -7,7 +7,10 @@ and this project adheres to [Crystal Nest Semantic Versioning](https://crystalne
 
 ## [Unreleased]
 
-- Nothing new.
+- Monsters in the Nightworld can now spawn with a light level of up to 12.
+- The Nightworld now has its own separate world clock.
+- Baby villagers in the Nightworld will always try to hide.
+- Slimes now have a higher chance to spawn in the Nightworld.
 
 ## [v5.0.0] - 2025/12/31
 

@@ -7,6 +7,11 @@ and this project adheres to [Crystal Nest Semantic Versioning](https://crystalne
 
 ## [Unreleased]
 
+- Nothing new.
+
+## [v5.1.0] - 2026/04/29
+
+- Ported to 26.1.x.
 - Monsters in the Nightworld can now spawn with a light level of up to 12.
 - The Nightworld now has its own separate world clock.
 - Baby villagers in the Nightworld will always try to hide.
@@ -118,6 +123,7 @@ and this project adheres to [Crystal Nest Semantic Versioning](https://crystalne
 
 [Unreleased]: https://github.com/crystal-nest/nightworld
 
+[v5.1.0]: https://github.com/crystal-nest/nightworld/releases?q=5.1.0
 [v5.0.0]: https://github.com/crystal-nest/nightworld/releases?q=5.0.0
 [v4.0.1]: https://github.com/crystal-nest/nightworld/releases?q=4.0.1
 [v4.0.0]: https://github.com/crystal-nest/nightworld/releases?q=4.0.0

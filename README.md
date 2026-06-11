@@ -16,6 +16,8 @@
 Explore the Nightworld, a similar world to the Overworld, but it's always night and beds explode!  
 It's a perfect choice for both multiplayer servers who need the nighttime but can't coordinate many players and for single players in search of a more challenging Overworld!
 
+[![Minecraft Storage](https://raw.githubusercontent.com/crystal-nest/mod-fancy-assets/main/nightworld/minecraft-storage-banner.png "Minecraft Storage")](https://minecraftstorage.com/mods/nightworld?ref=crystal-nest)
+
 ## ✨ **Features**
 
 - Required **only server side**!

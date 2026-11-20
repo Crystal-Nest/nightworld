@@ -8,7 +8,7 @@ import net.minecraft.util.RandomSource;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntitySpawnReason;
 import net.minecraft.world.entity.EntityType;
-import net.minecraft.world.level.BlockGetter;
+import net.minecraft.world.entity.EntityTypes;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.NetherPortalBlock;
 import net.minecraft.world.level.block.state.BlockBehaviour;
@@ -29,7 +29,7 @@ public abstract class NetherPortalBlockMixin extends Block {
   }
 
   /**
-   * Injects into the method {@link NetherPortalBlock#randomTick(BlockState, ServerLevel, BlockPos, RandomSource)} before the call to {@link BlockState#isValidSpawn(BlockGetter, BlockPos, EntityType)}.<br>
+   * Injects at the start of the method {@link NetherPortalBlock#randomTick(BlockState, ServerLevel, BlockPos, RandomSource)}.<br>
    * Allows Zombies and Skeletons spawn when it's a Nightworld Portal.
    *
    * @param state block state.
@@ -38,16 +38,18 @@ public abstract class NetherPortalBlockMixin extends Block {
    * @param random random source.
    * @param ci {@link CallbackInfo}.
    */
-  @SuppressWarnings({"JavadocReference", "StatementWithEmptyBody"})
+  @SuppressWarnings("JavadocReference")
   @Inject(method = "randomTick", at = @At(value = "HEAD"), cancellable = true)
   private void onRandomTick(BlockState state, ServerLevel level, BlockPos pos, RandomSource random, CallbackInfo ci) {
     if (level.isSpawningMonsters() && random.nextInt(500) < level.getDifficulty().getId() && CustomPortalChecker.isPortalForDimension(level, pos.above(), Constants.NIGHTWORLD)) {
-      BlockPos bottom;
-      for (bottom = pos; level.getBlockState(bottom).is(this); bottom = bottom.below());
+      BlockPos bottom = pos;
+      while (level.getBlockState(bottom).is(this)) {
+        bottom = bottom.below();
+      }
       if (random.nextInt(0, 10) < 5) {
-        this.handleSpawnEntity(EntityType.ZOMBIE, level, bottom);
+        this.handleSpawnEntity(EntityTypes.ZOMBIE, level, bottom);
       } else {
-        this.handleSpawnEntity(EntityType.SKELETON, level, bottom);
+        this.handleSpawnEntity(EntityTypes.SKELETON, level, bottom);
       }
       ci.cancel();
     }
